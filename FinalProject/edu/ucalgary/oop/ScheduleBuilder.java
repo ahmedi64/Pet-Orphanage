@@ -12,10 +12,10 @@ import com.mysql.cj.xdevapi.Result;
 
 public class ScheduleBuilder {
 
-    Connection myConnect;
-    String[][] tasks;
-    String[][] animals;
-    String[][] treatments;
+    public Connection myConnect;
+    public String[][] tasks;
+    public String[][] animals;
+    public String[][] treatments;
 
 
     public ScheduleBuilder(){
