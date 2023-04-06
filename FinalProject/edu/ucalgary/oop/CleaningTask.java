@@ -1,4 +1,4 @@
-
+package FinalProject.edu.ucalgary.oop;
 public class CleaningTask {
     private int cleanTime;
 
