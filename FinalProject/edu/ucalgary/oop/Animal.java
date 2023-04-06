@@ -7,14 +7,14 @@ public class Animal{
     public int cleantime;
     private FeedingTask feed;
     private CleaningTask clean;
-    public Animal(String name){
+    public void Animal(String name){
         this.name=name;
         this.feed = new FeedingTask(name);
         this.clean = new CleaningTask(name);
-        this.numanimal =feed.getnumberanimals();
-        this.tobefed = feed.getnumberanimals();
-        this.feedtime = feed.getfeedtime();
-        this.cleantime = feed.getcleantime();
+        this.numanimal =feed.getNumberAnimal();
+        this.tobefed = feed.getNumberAnimal();
+        this.feedtime = feed.getFeedTime();
+        this.cleantime = clean.getCleanTime();
 
     }
     public void decTobefed() {
