@@ -31,8 +31,11 @@ public class FeedingTask {
                 case "porcupine":
                     feedTime = 5 * numberAnimal;
                     break;
-                case "raccoon", "beaver":
+                case "raccoon":
                     feedTime = 5;
+                    break;
+                case "beaver":
+                    feedTime = 5 * numberAnimal;
                     break;
                 default:
                     System.out.println("Invalid animal name.");

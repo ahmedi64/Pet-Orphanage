@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.print.event.PrintEvent;
 
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.xdevapi.Result;
-
 
 
 
