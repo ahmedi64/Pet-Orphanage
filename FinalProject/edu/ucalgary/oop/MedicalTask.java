@@ -1,5 +1,9 @@
 package FinalProject.edu.ucalgary.oop;
 
+import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
+
 public class MedicalTask {
     private boolean animalFed = false;
     private int taskId;
@@ -20,42 +24,20 @@ public class MedicalTask {
         }
     }
 
-    public boolean getAnimalFed(){  
-        return animalFed;
+    public Set<Integer> getAnimalsFed() throws SQLException {
+        Set<Integer> animalsFed = new HashSet<>();
+    
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "password for root");
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT AnimalID FROM TREATMENTS WHERE TaskID = 1")) {
+    
+            while (resultSet.next()) {
+                int animalID = resultSet.getInt("AnimalID");
+                animalsFed.add(animalID);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return animalsFed;
     }
-    public void setAnimalFed(boolean animalFed){
-        this.animalFed = animalFed;
-    }
-    public int getTaskId(){
-        return taskId;
-    }
-    public void setTaskId(int taskId){
-        this.taskId = taskId;
-    }
-    public int getAnimalId(){
-        return animalId;
-    }
-    public void setAnimalId(int animalId){
-        this.animalId = animalId;
-    }
-    public int getStartHour(){
-        return startHour;
-    }
-    public void setStartHour(int startHour){
-        this.startHour = startHour;
-    }
-    public int getTaskDuration(){
-        return taskDuration;
-    }
-    public void setTaskDuration(int taskDuration){
-        this.taskDuration = taskDuration;
-    }
-    public int getMaxWindow(){
-        return maxWindow;
-    }
-    public void setMaxWindow(int maxWindow){
-        this.maxWindow = maxWindow;
-
-    }
-
 }
