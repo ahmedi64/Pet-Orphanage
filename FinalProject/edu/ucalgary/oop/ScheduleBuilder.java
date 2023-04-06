@@ -28,7 +28,7 @@ public class ScheduleBuilder {
     public void createConnection(){
                 
         try{
-            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
+            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Put the password for your root here");
         } catch (SQLException e) {
             e.printStackTrace();
         }

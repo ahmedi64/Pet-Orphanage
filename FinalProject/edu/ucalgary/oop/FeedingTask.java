@@ -8,7 +8,7 @@ public class FeedingTask {
         String species = name.toLowerCase();
         try {
             // Connect to the database
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "add whatever the password for your root is here");
 
             // Query the database for the number of animals of the specified species
             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM ANIMALS WHERE AnimalSpecies=?");

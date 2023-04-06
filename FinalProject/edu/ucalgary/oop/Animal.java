@@ -7,7 +7,7 @@ public class Animal{
     public int cleantime;
     private FeedingTask feed;
     private CleaningTask clean;
-    public animal(String name){
+    public Animal(String name){
         this.name=name;
         this.feed = new FeedingTask(name);
         this.clean = new CleaningTask(name);
