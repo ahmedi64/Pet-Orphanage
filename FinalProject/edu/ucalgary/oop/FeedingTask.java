@@ -1,14 +1,16 @@
+package FinalProject.edu.ucalgary.oop;
+
 import java.sql.*;
 
 public class FeedingTask {
     private int numberAnimal;
-    private int feedTime;
+    private int[] feedTime= new int[2];
 
     public FeedingTask(String name) {
         String species = name.toLowerCase();
         try {
             // Connect to the database
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "add whatever the password for your root is here");
 
             // Query the database for the number of animals of the specified species
             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM ANIMALS WHERE AnimalSpecies=?");
@@ -23,16 +25,24 @@ public class FeedingTask {
             // Set the feed time based on the species
             switch(species) {
                 case "coyote":
-                    feedTime = 10 + 5 * numberAnimal;
+                    feedTime[0] = 10;
+                    feedTime[1] = 5;
                     break;
                 case "fox":
-                    feedTime = 5 + 5*numberAnimal;
+                    feedTime[0] = 5;
+                    feedTime[1] = 5;
                     break;
                 case "porcupine":
-                    feedTime = 5 * numberAnimal;
+                    feedTime[0] = 0;
+                    feedTime[1] = 5;
                     break;
-                case "raccoon", "beaver":
-                    feedTime = 5;
+                case "raccoon":
+                    feedTime[0] = 0;
+                    feedTime[1] = 5;
+                    break;
+                case "beaver":
+                    feedTime[0] = 0;
+                    feedTime[1] = 5;
                     break;
                 default:
                     System.out.println("Invalid animal name.");
@@ -47,7 +57,7 @@ public class FeedingTask {
         }
     }
 
-    public int getFeedTime() {
+    public int[] getFeedTime() {
         return feedTime;
     }
 

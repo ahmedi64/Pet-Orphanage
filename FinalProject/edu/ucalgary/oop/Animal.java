@@ -1,20 +1,26 @@
 package FinalProject.edu.ucalgary.oop;
+
 public class Animal{
     public String name;
     public int numanimal;
     public int tobefed;
+    public int[] feedtimes;
     public int feedtime;
+    public int onefeed;
+    public int prepfeed;
     public int cleantime;
     private FeedingTask feed;
     private CleaningTask clean;
-    public animal(String name){
+    public void Animal(String name){
         this.name=name;
         this.feed = new FeedingTask(name);
         this.clean = new CleaningTask(name);
-        this.numanimal =feed.getnumberanimals();
-        this.tobefed = feed.getnumberanimals();
-        this.feedtime = feed.getfeedtime();
-        this.cleantime = feed.getcleantime();
+        this.numanimal =feed.getNumberAnimal();
+        this.tobefed = feed.getNumberAnimal();
+        this.feedtimes = feed.getFeedTime();
+        this.prepfeed=feedtimes[0];
+        this.onefeed=feedtimes[1];
+        this.cleantime = clean.getCleanTime();
 
     }
     public void decTobefed() {
@@ -31,5 +37,11 @@ public class Animal{
 
     public int getFeedtime() {
         return feedtime*tobefed;
+    }
+
+    public int[] animalCBF(int min){
+        min=min-prepfeed;
+        int numanimalCBF=min/onefeed;
+        return new int[]{numanimalCBF, min % onefeed};
     }
 }
