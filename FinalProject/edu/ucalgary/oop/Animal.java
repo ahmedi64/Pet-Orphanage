@@ -1,4 +1,5 @@
-package FinalProject.edu.ucalgary.oop;
+
+
 public class Animal{
     public String name;
     public int numanimal;
