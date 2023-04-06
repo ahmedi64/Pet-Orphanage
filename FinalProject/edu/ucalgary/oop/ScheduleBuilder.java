@@ -1,5 +1,3 @@
-package FinalProject.edu.ucalgary.oop;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -22,7 +20,7 @@ public class ScheduleBuilder {
     public void createConnection(){
                 
         try{
-            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
+            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "password");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,41 +145,48 @@ public static void main(String[] args) {
 
 
     ScheduleBuilder schedule = new ScheduleBuilder();
+    int numberTreatments = schedule.countRows("treatments");
 
-
-    MedicalTask medicalTask = new MedicalTask(0, 0, 0, 0, 0, false);
+    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),numberTreatments);
     //get the information from medical task
   
     //find the hour that has the most tasks and save this in a variable
     //set the second half of the array list ot the most hours
     String[][] medicalTasks = medicalTask.getInfo();
-    //Ahmed gives [Taskname  duration  starthour  animalnickname]
+
 
     
+    int highestStartHour = Integer.MIN_VALUE;
 
-    for (int i = 0;medicalTask[i][2] )
+    for (int i = 0; i < medicalTasks.length; i++) {
+        int startHour = Integer.parseInt(medicalTasks[i][2]); // parse the start hour as an integer
+        if (startHour > highestStartHour) {
+            highestStartHour = startHour; // update the highest start hour seen so far
+        }
+    }
+   
+
+
+    String[][] Tasks = new String[24][highestStartHour];
 
 
 
-    String[][] Tasks = new String[24][];
+    //Ahmed gives [Taskname  duration  starthour  animalnickname]
+    for(int i = 1;i>numberTreatments;i++){
 
-    for(int i = 0,){
+
+
 
     }
 
 
 
+    // I put them into hour array based on start hour
 
 
 
 
-
-I put them into hour array based on start hour
-
-
-
-
-I give task class these Taskname,quantity, duration
+    // I give task class these Taskname,quantity, duration
 
 
 

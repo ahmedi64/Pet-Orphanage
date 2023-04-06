@@ -27,7 +27,7 @@ public class MedicalTask {
     public Set<Integer> getAnimalsFed() throws SQLException {
         Set<Integer> animalsFed = new HashSet<>();
     
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "password for root");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "password");
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT AnimalID FROM TREATMENTS WHERE TaskID = 1")) {
     
