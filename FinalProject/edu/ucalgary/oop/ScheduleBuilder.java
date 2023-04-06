@@ -1,10 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.print.event.PrintEvent;
-
-
 
 
 public class ScheduleBuilder {
@@ -25,7 +20,7 @@ public class ScheduleBuilder {
     public void createConnection(){
                 
         try{
-            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Put the password for your root here");
+            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -142,18 +137,48 @@ public class ScheduleBuilder {
 
 
 
+
+
 public static void main(String[] args) {
 
-    //This is where we will actually make the schedule using all classesa and methods
+    //This is where we will actually make the schedule using all classes and methods
 
 
     ScheduleBuilder schedule = new ScheduleBuilder();
-    
 
-    String[][] animals =  schedule.getTreatments();
-    System.out.println(animals[0][0]);
+    System.out.println(schedule.getAnimals()[0][1]);
+//     MedicalTask medicalTask = new MedicalTask(0, 0, 0, 0, 0, false);
+//     //get the information from medical task
   
-    
+//     //find the hour that has the most tasks and save this in a variable
+//     //set the second half of the array list ot the most hours
+//     String[][] medicalTasks = medicalTask.getInfo();
+//     //Ahmed gives Taskname duration starthour animalnickname
+
+//     for (int i = 0; )
+
+
+
+//     String[][] Tasks = new String[24][];
+
+//     for(int i = 0,){
+
+//     }
+
+
+
+
+
+
+
+
+// I put them into hour array based on start hour
+
+
+
+
+// I give task class these Taskname,quantity, duration
+
 
 
    

@@ -8,6 +8,7 @@ public class Animal{
     public int cleantime;
     private FeedingTask feed;
     private CleaningTask clean;
+    
     public void Animal(String name){
         this.name=name;
         this.feed = new FeedingTask(name);
