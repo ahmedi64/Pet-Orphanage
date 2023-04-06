@@ -1,3 +1,5 @@
+package FinalProject.edu.ucalgary.oop;
+
 public class MedicalTask {
     private boolean animalFed = false;
     private int taskId;
