@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="a3167b22-74e1-46dc-8678-5d8281e55858" name="Changes" comment="" />
+=======
+    <list default="true" id="f1a73316-77c0-40ff-819b-7c564b925feb" name="Changes" comment="Added Test.java and modified Animal.java" />
+>>>>>>> 4870ba98f66720f9135140d49968d89c2dbcbb8f
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+<<<<<<< HEAD
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+=======
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+>>>>>>> 4870ba98f66720f9135140d49968d89c2dbcbb8f
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+<<<<<<< HEAD
+  <component name="ProjectId" id="2NqgTamaTdoCXyltdEYA4inYigp" />
+=======
+  <component name="ProjectId" id="2Nw6uG6zUPgriJLyQN6yLIQcP4r" />
+>>>>>>> 4870ba98f66720f9135140d49968d89c2dbcbb8f
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+<<<<<<< HEAD
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/380-Final-Prodject&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a3167b22-74e1-46dc-8678-5d8281e55858" name="Changes" comment="" />
+      <created>1680397035038</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680397035038</updated>
+    </task>
+    <servers />
+  </component>
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Abrar Rehan/ENSF380-WS2023/Lesson19_IOStream/Ass 5"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f1a73316-77c0-40ff-819b-7c564b925feb" name="Changes" comment="" />
+      <created>1680563017475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680563017475</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Added Animal.java">
+      <created>1680563164048</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680563164048</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added Animal.java">
+      <created>1680805747156</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1680805747156</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Modified Animal.java">
+      <created>1680805856518</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1680805856518</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Modified Animal.java and FeedingTask.java">
+      <created>1680809834660</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1680809834661</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added Hour.java">
+      <created>1680812152143</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680812152143</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added Test.java and modified Animal.java">
+      <created>1680817466513</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1680817466513</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Animal.java" />
+    <MESSAGE value="Modified Animal.java" />
+    <MESSAGE value="Modified Animal.java and FeedingTask.java" />
+    <MESSAGE value="Added Hour.java" />
+    <MESSAGE value="Added Test.java and modified Animal.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Test.java and modified Animal.java" />
+  </component>
+>>>>>>> 4870ba98f66720f9135140d49968d89c2dbcbb8f
+</project>

@@ -140,53 +140,6 @@ public class ScheduleBuilder {
 
 
 
-
-public static void main(String[] args) {
-
-    //This is where we will actually make the schedule using all classes and methods
-
-
-    ScheduleBuilder schedule = new ScheduleBuilder();
-
-    System.out.println(schedule.getAnimals()[0][1]);
-//     MedicalTask medicalTask = new MedicalTask(0, 0, 0, 0, 0, false);
-//     //get the information from medical task
-  
-//     //find the hour that has the most tasks and save this in a variable
-//     //set the second half of the array list ot the most hours
-//     String[][] medicalTasks = medicalTask.getInfo();
-//     //Ahmed gives Taskname duration starthour animalnickname
-
-//     for (int i = 0; )
-
-
-
-//     String[][] Tasks = new String[24][];
-
-//     for(int i = 0,){
-
-//     }
-
-
-
-
-
-
-
-
-// I put them into hour array based on start hour
-
-
-
-
-// I give task class these Taskname,quantity, duration
-
-
-
-   
-         
-}
-
 }
 
 
