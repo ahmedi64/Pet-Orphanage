@@ -147,7 +147,7 @@ public static void main(String[] args) {
     ScheduleBuilder schedule = new ScheduleBuilder();
     int rowsTreatment = schedule.countRows("treatments");
 
-    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),rowsTreatment);
+    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments());
     //get the information from medical task
   
     //find the hour that has the most tasks and save this in a variable
