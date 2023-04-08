@@ -1,4 +1,4 @@
-package Final.edu.ucalgary.oop;
+package FinalProject.edu.ucalgary.oop;
 
 public class Animal{
     public String name;
@@ -8,6 +8,8 @@ public class Animal{
     public int feedtime;
     public int onefeed;
     public int prepfeed;
+
+    public int[] feedtimehour;
     public int cleantime;
     private FeedingTask feed;
     private CleaningTask clean;
@@ -22,6 +24,8 @@ public class Animal{
         this.feedtimes = feed.getFeedTime();
         this.prepfeed=feedtimes[0];
         this.onefeed=feedtimes[1];
+        int hour =feedtimes[2];
+        this.feedtimehour = new int[] {hour, hour+1, hour+2};
         this.cleantime = clean.getCleanTime();
 
     }
@@ -37,10 +41,6 @@ public class Animal{
         return cleantime;
     }
 
-    public int getFeedtime() {
-        return feedtime*tobefed;
-    }
-
     public int getNumAnimal() {
         return numanimal;
     }
@@ -49,5 +49,9 @@ public class Animal{
         min=min-prepfeed;
         int numanimalCBF=min/onefeed;
         return new int[]{numanimalCBF, min % onefeed};
+    }
+
+    public int[] getFeedTimeHour() {
+        return feedtimehour;
     }
 }
