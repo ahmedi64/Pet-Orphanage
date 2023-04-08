@@ -173,12 +173,19 @@ public static void main(String[] args) {
     Animal coyotes = new Animal("coyote"); 
     Animal beavers = new Animal("beaver"); 
     Animal racoons = new Animal("racoon"); 
-    Animal foxs = new Animal("fox"); 
+    Animal foxes = new Animal("fox"); 
     Animal porcupines = new Animal("porcupine"); 
 
+    
+     
+
+    int[] time = {7,8,9};
+
+    for(int i = 0;i < time.length;i++){
+        int hour = time[i];
 
 
-
+    }
 
     
 
