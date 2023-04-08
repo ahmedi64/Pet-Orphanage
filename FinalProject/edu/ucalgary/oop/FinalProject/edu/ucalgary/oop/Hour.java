@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hour {
-    List<String[]> tasks = new ArrayList<>();
+    private List<String[]> tasks = new ArrayList<>();
     private int timeRemaining;
+    private boolean volenteer;
 
 
 
     public Hour(){
         this.timeRemaining = 60;
+        volenteer = false;
     }
 
 
     public void addTasks(String task,int duration,String animal){
 
         if(timeRemaining-duration < 0){
+            
             return;
         }
 
@@ -31,6 +34,7 @@ public class Hour {
 
     public void addVolenteer(){
         timeRemaining = timeRemaining + 60;
+        volenteer = true;
     }
 
 
@@ -38,6 +42,9 @@ public class Hour {
         return timeRemaining;
     }
 
+    public boolean getVolenteer(){
+        return volenteer;
+    }
     
 
     public List<String[]> getTasks() {

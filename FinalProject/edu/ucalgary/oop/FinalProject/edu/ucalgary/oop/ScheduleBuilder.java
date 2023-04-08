@@ -166,35 +166,38 @@ public static void main(String[] args) {
         Scheduele.put(i, hour); // add the element to the map
     }
 
+
     for (int i = 0; i < medicalTasks.size(); i++) {
         String[] tasks = medicalTasks.get(i);
-
         Hour hourforTask =  Scheduele.get( Integer.parseInt(tasks[0]));
-
-
         hourforTask.addTasks(tasks[1],Integer.parseInt(tasks[2]), tasks[3]);
+    }
+    //Above for loop will add all the medical tasks
+
+
+
+
+    //Change animals to create seperate instances of each animal, and then i will use getters to get values from it
+    //
+
+
+    //Now we have to do the same for the feeding and cleqning tasks
+
+    //Feeding tasks can recieve the remaining time on the hours of their respective animals and then 
+    //feed the animals respectively. If it cant be done then we can calculate the total time it will take 
+    //to feed all the animls and then check the remaining time of all the hours, if the feeding can be done in 
+    //one hour with a backup volenteer then great. If not go through all 3 of the hours. If it cant even do that then
+    //We tell the user that it is impossible to create a schedule.
+    //
+
+    //After this we can check for any reamining time left and add the cleaning tasks in those time slots, if
+    //unable add volenteers for the hours, if even then it dosent work then tell the user it is impossible
+
+    // print the Hashmap with formatSchedule as a guide and we are done, make sure to check the volenteer boolean
+    //to let them know if a backup is needed
+
 
     }
-
-
-
-    }
-
-
-
-
-
-
-
-    // I put them into hour array based on start hour
-
-
-
-
-    // I give task class these Taskname,quantity, duration
-
-
-
    
             
 }
