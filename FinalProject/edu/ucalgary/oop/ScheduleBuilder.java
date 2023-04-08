@@ -174,7 +174,9 @@ public static void main(String[] args) {
     Animal beavers = new Animal("beaver"); 
     Animal racoons = new Animal("racoon"); 
     Animal foxs = new Animal("fox"); 
-    Animal porcupines = new Animal("porcupine"); 
+    Animal porcupines = new Animal("porcupine");
+
+
 
 
 

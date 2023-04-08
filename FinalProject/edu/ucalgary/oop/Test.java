@@ -27,27 +27,27 @@ public class Test {
     }
 
 
-        @org.junit.Test
-        public void testFeedingTask() {
-            FeedingTask task1 = new FeedingTask("coyote");
-            Assert.assertEquals(2, task1.getNumberAnimal());
-            Assert.assertArrayEquals(new int[]{10, 5}, task1.getFeedTime());
+    @org.junit.Test
+    public void testFeedingTask() {
+        FeedingTask task1 = new FeedingTask("coyote");
+        Assert.assertEquals(2, task1.getNumberAnimal());
+        Assert.assertArrayEquals(new int[]{10, 5}, task1.getFeedTime());
 
-            FeedingTask task2 = new FeedingTask("fox");
-            Assert.assertEquals(4, task2.getNumberAnimal());
-            Assert.assertArrayEquals(new int[]{5, 5}, task2.getFeedTime());
+        FeedingTask task2 = new FeedingTask("fox");
+        Assert.assertEquals(4, task2.getNumberAnimal());
+        Assert.assertArrayEquals(new int[]{5, 5}, task2.getFeedTime());
 
-            FeedingTask task3 = new FeedingTask("beaver");
-            Assert.assertEquals(1, task3.getNumberAnimal());
-            Assert.assertArrayEquals(new int[]{0, 5}, task3.getFeedTime());
+        FeedingTask task3 = new FeedingTask("beaver");
+        Assert.assertEquals(1, task3.getNumberAnimal());
+        Assert.assertArrayEquals(new int[]{0, 5}, task3.getFeedTime());
 
-            FeedingTask task4 = new FeedingTask("porcupine");
-            Assert.assertEquals(3, task4.getNumberAnimal());
-            Assert.assertArrayEquals(new int[]{0, 5}, task4.getFeedTime());
+        FeedingTask task4 = new FeedingTask("porcupine");
+        Assert.assertEquals(3, task4.getNumberAnimal());
+        Assert.assertArrayEquals(new int[]{0, 5}, task4.getFeedTime());
 
-            FeedingTask task5 = new FeedingTask("invalid_species");
-            Assert.assertEquals(0, task5.getNumberAnimal());
-            Assert.assertArrayEquals(new int[]{0, 0}, task5.getFeedTime()); // Invalid species should return feed time of 0
-        }
+        FeedingTask task5 = new FeedingTask("invalid_species");
+        Assert.assertEquals(0, task5.getNumberAnimal());
+        Assert.assertArrayEquals(new int[]{0, 0}, task5.getFeedTime()); // Invalid species should return feed time of 0
+    }
     }
 
