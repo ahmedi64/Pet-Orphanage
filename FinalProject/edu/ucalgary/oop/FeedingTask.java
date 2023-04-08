@@ -36,7 +36,7 @@ public class FeedingTask {
                     feedTime[0] = 0;
                     feedTime[1] = 5;
                     break;
-                case "raccoon":
+                case "racoon":
                     feedTime[0] = 0;
                     feedTime[1] = 5;
                     break;

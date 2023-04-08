@@ -1,4 +1,4 @@
-package FinalProject.edu.ucalgary.oop;
+package Final.edu.ucalgary.oop;
 
 public class Animal{
     public String name;
