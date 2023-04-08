@@ -15,10 +15,11 @@ public class Hour {
         volenteer = false;
     }
 
+   
 
     public void addTasks(String task,int duration,String animal){
 
-        if(timeRemaining-duration < 0){
+        if(timeRemaining-duration <= 0){
             
             return;
         }
@@ -29,8 +30,9 @@ public class Hour {
 
         tasks.add(newArray);
         
-        
     }
+
+
 
     public void addVolenteer(){
         timeRemaining = timeRemaining + 60;
@@ -49,5 +51,9 @@ public class Hour {
 
     public List<String[]> getTasks() {
         return tasks;
+    }
+
+    public void setTimeRemaining(int timeRemaining) {
+        this.timeRemaining = timeRemaining;
     }
 }

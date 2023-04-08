@@ -54,4 +54,7 @@ public class Animal{
     public int[] getFeedTimeHour() {
         return feedtimehour;
     }
+    public String getName() {
+        return name;
+    }
 }

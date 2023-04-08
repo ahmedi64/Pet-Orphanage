@@ -137,14 +137,66 @@ public class ScheduleBuilder {
     }
 
 
+    public void addFeedingTasks( HashMap<Integer,Hour> Scheduele,Animal animal){
 
+        for(int i = 0;i <= 3;i++){
+
+            int hourToFeed = animal.getFeedTimeHour()[i];
+
+            Hour hour = Scheduele.get(hourToFeed);
+
+            int timeRemaining = hour.getTimeRemaining();
+
+            int animalCanBeFed[] = animal.animalCBF(timeRemaining);
+
+            if( animalCanBeFed[0] >=1){
+
+                String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
+                hour.addTasks(str,timeRemaining-animalCanBeFed[1] , animal.getName());
+                hour.setTimeRemaining(animalCanBeFed[1]);
+
+                while (animalCanBeFed[0]!=0){
+                    animal.decTobefed();
+                    animalCanBeFed[0] --;
+                }
+            }
+        }
+
+
+        //We have to use backup volenteers
+        if(animal.getTobefed()>=1){
+            for(int i = 0;i <= 3;i++){
+
+                int hourToFeed = animal.getFeedTimeHour()[i];
+    
+                Hour hour = Scheduele.get(hourToFeed);
+    
+                int timeRemaining = hour.getTimeRemaining();
+    
+                int animalCanBeFed[] = animal.animalCBF(timeRemaining+60);
+    
+                if( animalCanBeFed[0] >=1){
+                    hour.addVolenteer();
+                    String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
+                    hour.addTasks(str, timeRemaining-animalCanBeFed[0], animal.getName());
+                    hour.setTimeRemaining(timeRemaining-animalCanBeFed[0]+60);
+                    while (animalCanBeFed[0]!=0){
+                        animal.decTobefed();
+                        animalCanBeFed[0] --;
+                    }
+                }
+            }
+        }
+        if(animal.getTobefed()>=1){
+            throw new Error("You cant do feeding tasks");
+        }
+    }
 
 
 
 
 public static void main(String[] args) {
 
-    //This is where we will actually make the schedule using all classes and methods
     ScheduleBuilder schedule = new ScheduleBuilder();
     int rowsTreatment = schedule.countRows("treatments");
 
@@ -161,7 +213,7 @@ public static void main(String[] args) {
 
     HashMap<Integer,Hour> Scheduele = new HashMap<>();
 
-    for (int i = 1; i <= 24; i++) {
+    for (int i = 0; i <= 23; i++) {
         Hour hour = new Hour(); // create an instance of the Hour object
         Scheduele.put(i, hour); // add the element to the map
     }
@@ -169,29 +221,18 @@ public static void main(String[] args) {
     //The loop will add all the medical tasks
     
 
-
     Animal coyotes = new Animal("coyote"); 
     Animal beavers = new Animal("beaver"); 
     Animal racoons = new Animal("racoon"); 
     Animal foxes = new Animal("fox"); 
     Animal porcupines = new Animal("porcupine"); 
-
     
+    schedule.addFeedingTasks(Scheduele, coyotes);
+    schedule.addFeedingTasks(Scheduele, beavers);
+    schedule.addFeedingTasks(Scheduele, racoons);
+    schedule.addFeedingTasks(Scheduele, foxes);
+    schedule.addFeedingTasks(Scheduele, porcupines);
 
-
-     
-
-    int[] time = {7,8,9};
-
-    for(int i = 0;i < time.length;i++){
-        int hour = time[i];
-
-
-    }
-
-    
-
-    
 
 
     //Now we have to do the same for the feeding and cleqning tasks
