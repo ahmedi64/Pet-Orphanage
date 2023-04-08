@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class FeedingTask {
     private int numberAnimal;
-    private int[] feedTime= new int[2];
+    private int[] feedTime= new int[3];
 
     public FeedingTask(String name) {
         String species = name.toLowerCase();
@@ -27,22 +27,27 @@ public class FeedingTask {
                 case "coyote":
                     feedTime[0] = 10;
                     feedTime[1] = 5;
+                    feedTime[2] = 19;
                     break;
                 case "fox":
                     feedTime[0] = 5;
                     feedTime[1] = 5;
+                    feedTime[2] = 0;
                     break;
                 case "porcupine":
                     feedTime[0] = 0;
                     feedTime[1] = 5;
+                    feedTime[2] = 19;
                     break;
-                case "raccoon":
+                case "racoon":
                     feedTime[0] = 0;
                     feedTime[1] = 5;
+                    feedTime[2] = 0;
                     break;
                 case "beaver":
                     feedTime[0] = 0;
                     feedTime[1] = 5;
+                    feedTime[2] = 8;
                     break;
                 default:
                     System.out.println("Invalid animal name.");
