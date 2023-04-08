@@ -1,3 +1,5 @@
+package FinalProject.edu.ucalgary.oop;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class ScheduleBuilder {
     public void createConnection(){
                 
         try{
-            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "password");
+            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,29 +149,21 @@ public static void main(String[] args) {
     ScheduleBuilder schedule = new ScheduleBuilder();
     int rowsTreatment = schedule.countRows("treatments");
 
-    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments());
+    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),schedule.countRows("treatments"));
     //get the information from medical task
   
     //find the hour that has the most tasks and save this in a variable
     //set the second half of the array list ot the most hours
     //Ahmed gives [Taskname  duration  starthour  animalnickname]
 
-    String[][] medicalTasks = medicalTask.getInfo();
+    ArrayList<String[]> medicalTasks = medicalTask.getInfo();
 
 
-        
-    int highestStartHour = Integer.MIN_VALUE;
+    for(int i = 0;i<medicalTasks.size();i++){
 
-    for (int i = 0; i < medicalTasks.length; i++) {
-        int startHour = Integer.parseInt(medicalTasks[i][2]); // parse the start hour as an integer
-        if (startHour > highestStartHour) {
-            highestStartHour = startHour; // update the highest start hour seen so far
-        }
+        System.out.println(medicalTasks.get(i)[i]);
+
     }
-
-    Hour[][] hours = new Hour[24][highestStartHour];
-    
-    for(int i = 0;i>24;i++){
         
 
 
@@ -192,9 +186,9 @@ public static void main(String[] args) {
 
    
             
-    }
-
 }
+
+
 
 
 

@@ -43,7 +43,7 @@ public class MedicalTask {
             //get values from nested arrays
             int startHour = Integer.parseInt(treatments[i][2]);
             int duration = Integer.parseInt(tasks[Integer.parseInt(treatments[i][1]) - 1][2]);
-            String taskName = tasks[Integer.parseInt(treatments[i][1]) - 1][1];
+            String taskID = tasks[Integer.parseInt(treatments[i][1]) - 1][0];
             String animalID = treatments[i][1];
     
             boolean added = false;
@@ -74,7 +74,7 @@ public class MedicalTask {
                     if (maxWindow <= currentMaxWindow) {
                         String[] newEntry = new String[4];
                         newEntry[0] = String.valueOf(startHour);
-                        newEntry[1] = taskName;
+                        newEntry[1] = taskID;
                         newEntry[2] = String.valueOf(duration);
                         newEntry[3] = animalID;
                         infoList.add(newEntry);
@@ -92,7 +92,7 @@ public class MedicalTask {
             if (!added) {
                 String[] newEntry = new String[4];
                 newEntry[0] = String.valueOf(startHour);
-                newEntry[1] = taskName;
+                newEntry[1] = taskID;
                 newEntry[2] = String.valueOf(duration);
                 newEntry[3] = animalID;
                 infoList.add(newEntry);
