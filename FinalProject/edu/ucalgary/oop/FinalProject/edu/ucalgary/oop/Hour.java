@@ -1,25 +1,46 @@
 package FinalProject.edu.ucalgary.oop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hour {
-    private String taskname;
-    private int quantity=0;
-    private int duration;
+    List<String[]> tasks = new ArrayList<>();
+    private int timeRemaining;
 
-    public void Hour(String taskname, int quantity, int duration){
-        this.taskname=taskname;
-        this.quantity=quantity;
-        this.duration=duration;
+
+
+    public Hour(){
+        this.timeRemaining = 60;
     }
 
-    public int getDuration() {
-        return duration;
+
+    public void addTasks(String task,int duration,String animal){
+
+        if(timeRemaining-duration < 0){
+            return;
+        }
+
+        String[] newArray = new String[2];
+        newArray[0] = Integer.toString(duration);
+        newArray[1] = animal;
+
+        tasks.add(newArray);
+        
+        
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void addVolenteer(){
+        timeRemaining = timeRemaining + 60;
     }
 
-    public String getTaskname() {
-        return taskname;
+
+    public int getTimeRemaining() {
+        return timeRemaining;
+    }
+
+    
+
+    public List<String[]> getTasks() {
+        return tasks;
     }
 }

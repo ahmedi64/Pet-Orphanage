@@ -2,6 +2,7 @@ package FinalProject.edu.ucalgary.oop;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class ScheduleBuilder {
@@ -144,27 +145,37 @@ public class ScheduleBuilder {
 public static void main(String[] args) {
 
     //This is where we will actually make the schedule using all classes and methods
-
-
     ScheduleBuilder schedule = new ScheduleBuilder();
     int rowsTreatment = schedule.countRows("treatments");
 
-    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),schedule.countRows("treatments"));
+    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),rowsTreatment);
+    
     //get the information from medical task
-  
-    //find the hour that has the most tasks and save this in a variable
-    //set the second half of the array list ot the most hours
-    //Ahmed gives [Taskname  duration  starthour  animalnickname]
-
     ArrayList<String[]> medicalTasks = medicalTask.getInfo();
 
+    //find the hour that has the most tasks and save this in a variable
+    //set the second half of the array list ot the most hours
+    //Ahmed gives [starthour,TaskID,duration,animalID]
 
-    for(int i = 0;i<medicalTasks.size();i++){
 
-        System.out.println(medicalTasks.get(i)[i]);
+
+    HashMap<Integer,Hour> Scheduele = new HashMap<>();
+
+    for (int i = 1; i <= 24; i++) {
+        Hour hour = new Hour(); // create an instance of the Hour object
+        Scheduele.put(i, hour); // add the element to the map
+    }
+
+    for (int i = 0; i < medicalTasks.size(); i++) {
+        String[] tasks = medicalTasks.get(i);
+
+        Hour hourforTask =  Scheduele.get( Integer.parseInt(tasks[0]));
+
+
+        hourforTask.addTasks(tasks[1],Integer.parseInt(tasks[2]), tasks[3]);
 
     }
-        
+
 
 
     }
