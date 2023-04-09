@@ -1,4 +1,4 @@
-package FinalProject.edu.ucalgary.oop;
+// package FinalProject.edu.ucalgary.oop;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class MedicalTask {
     public HashMap<String, Integer> getAnimalsFed() throws SQLException {
         Set<Integer> animalsFed = new HashSet<>();
     
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "Jawad195");
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT AnimalID FROM TREATMENTS WHERE TaskID = 1")) {
     

@@ -1,4 +1,4 @@
-package FinalProject.edu.ucalgary.oop;
+// package FinalProject.edu.ucalgary.oop;
 
 public class Animal{
     public String name;
@@ -29,8 +29,8 @@ public class Animal{
         this.cleantime = clean.getCleanTime();
 
     }
-    public void decTobefed() {
-        this.tobefed -= this.tobefed;
+    public void decTobefed(int num) {
+        this.tobefed = this.tobefed - num;
     }
 
     public int getTobefed() {
@@ -47,6 +47,8 @@ public class Animal{
 
     public int[] animalCBF(int min){
         min=min-prepfeed;
+
+
         int numanimalCBF=min/onefeed;
         return new int[]{numanimalCBF, min % onefeed};
     }

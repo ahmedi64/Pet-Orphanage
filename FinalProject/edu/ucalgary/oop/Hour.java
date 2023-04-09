@@ -1,4 +1,4 @@
-package FinalProject.edu.ucalgary.oop;
+// package FinalProject.edu.ucalgary.oop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,11 @@ public class Hour {
         }
 
         String[] newArray = new String[2];
-        newArray[0] = Integer.toString(duration);
+        newArray[0] = task;
         newArray[1] = animal;
 
         tasks.add(newArray);
+        this.timeRemaining = timeRemaining- duration;
         
     }
 
