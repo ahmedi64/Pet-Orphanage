@@ -4,9 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.print.DocFlavor.STRING;
 
 
 public class ScheduleBuilder {
@@ -213,14 +210,81 @@ public class ScheduleBuilder {
             }
         }
 
+        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks");}
+        return tasks;
+    }
 
-        if(animal.getTobefed()>=1){
-            throw new Error("You cant do feeding tasks");
+
+    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal){
+        
+        ArrayList<String[]> strReturn = new ArrayList<>();
+
+        int cagesToClean = animal.getNumAnimal();
+
+        for(int i = 0;i<23;i++){
+
+            if(cagesToClean<=0){
+                continue;
+            }
+            
+
+            Hour hour = Schedule.get(i);
+            int timeRemaining =  hour.getTimeRemaining();
+
+            if(cleaning.cleanCBF(timeRemaining)[0]>0){
+
+                int animalsCleaning = cleaning.cleanCBF(timeRemaining)[0];
+
+
+                if(cagesToClean-animalsCleaning<0){
+                   animalsCleaning = cagesToClean;
+
+                }
+
+
+                String str = "Clean "+animalsCleaning+" "+animal.getName()+" cage/cages";
+                cagesToClean = cagesToClean-animalsCleaning;
+
+                String[] s = {Integer.toString(i),str,Integer.toString(timeRemaining-cleaning.cleanCBF(timeRemaining)[1]),animal.getName(),"false"};
+                strReturn.add(s);
+            }
         }
 
-        return tasks;
+        if(cagesToClean>=1){
+            for(int i = 0;i<23;i++){
+
+                if(cagesToClean<=0){
+                    continue;
+                }
+                
+    
+                Hour hour = Schedule.get(i);
+                int timeRemaining =  hour.getTimeRemaining()+60;
+    
+                if(cleaning.cleanCBF(timeRemaining)[0]>0){
+
+                    int animalsCleaning = cleaning.cleanCBF(timeRemaining)[0];
+    
+    
+                    if(cagesToClean-animalsCleaning<0){
+                       animalsCleaning = cagesToClean;
+    
+                    }
+    
+    
+                    String str = "Clean "+animalsCleaning+" "+animal.getName()+" cage/cages";
+                    cagesToClean = cagesToClean-animalsCleaning;
+    
+                    String[] s = {Integer.toString(i),str,Integer.toString(timeRemaining-cleaning.cleanCBF(timeRemaining)[1]),animal.getName(),"true"};
+                    strReturn.add(s);
+                }
+            }
+
+        }
+        return strReturn;
 
     }
+
 
 
 
@@ -278,28 +342,82 @@ public static void main(String[] args) {
     }
     
  
-
+    //Add feedig tasks
     for(int i = 0;i<animalSpecies.length;i++){
         ArrayList<String[]> feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
 
-            for(int j = 0;j<feedForAnimal.size();j++){
+        for(int j = 0;j<feedForAnimal.size();j++){
 
-                int hour= Integer.parseInt(feedForAnimal.get(j)[0]);
-                String taskName= feedForAnimal.get(j)[1];
-                int duration= Integer.parseInt(feedForAnimal.get(j)[2]); 
-                String animalNickname= feedForAnimal.get(j)[3]; 
-                boolean volenteer = Boolean.valueOf(feedForAnimal.get(j)[4]);
-        
+            int hour= Integer.parseInt(feedForAnimal.get(j)[0]);
+            String taskName= feedForAnimal.get(j)[1];
+            int duration= Integer.parseInt(feedForAnimal.get(j)[2]); 
+            String animalNickname= feedForAnimal.get(j)[3]; 
+            boolean volenteer = Boolean.valueOf(feedForAnimal.get(j)[4]);
+            Hour mapHour =  Schedule.get(hour);
                 
-                Hour mapHour = Schedule.get(hour);
-                if(volenteer){mapHour.addVolenteer();}
-        
-        
-                mapHour.addTasks(taskName, duration , animalNickname);
-            }
-    
+            if(volenteer){mapHour.addVolenteer();}
+
+
+            mapHour.addTasks(taskName, duration , animalNickname);
+           
+
+
+        }
+    }
+
+
+    String[] animalSpecienames = {"coyote","beaver","racoon","fox","porcupine"};
+
+    //add cleaning tasks
+    for(int i =0;i<animalSpecies.length;i++){
+
+        CleaningTask cleaning = new CleaningTask(animalSpecienames[i]);
+
+        ArrayList<String[]> taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+
+
+        for(int j = 0;j<taskForSpecies.size();j++){
+            int hour= Integer.parseInt(taskForSpecies.get(j)[0]);
+
+            String taskName= taskForSpecies.get(j)[1];
+            int duration= Integer.parseInt(taskForSpecies.get(j)[2]); 
+            String animalNickname= taskForSpecies.get(j)[3]; 
+            boolean volenteer = Boolean.valueOf(taskForSpecies.get(j)[4]);
+            Hour mapHour =  Schedule.get(hour);
+                
+
+            if(volenteer){mapHour.addVolenteer();}
+
+
+
+            mapHour.addTasks(taskName, duration , animalNickname);
+           
+
+        }
+
+
+
 
     }
+
+
+
+
+
+        for(int i = 0;i<23;i++){
+            Hour hour = Schedule.get(i);
+            List<String[]> tasksforHour =  hour.getTasks();
+
+            for(int j=0;j<tasksforHour.size();j++){
+                String[] tasks = tasksforHour.get(j);
+
+                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
+
+            }
+
+
+        }
+
 
 
     }

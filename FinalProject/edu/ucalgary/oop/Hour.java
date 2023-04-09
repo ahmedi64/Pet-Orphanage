@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hour {
-    private List<String[]> tasks = new ArrayList<>();
+    private ArrayList<String[]> tasks = new ArrayList<>();
     private int timeRemaining;
     private boolean volenteer;
 
@@ -19,10 +19,7 @@ public class Hour {
 
     public void addTasks(String task,int duration,String animal){
 
-        if(timeRemaining-duration <= 0){
-            
-            return;
-        }
+        
 
         String[] newArray = new String[2];
         newArray[0] = task;
