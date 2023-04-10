@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ScheduleBuilder {
 
-    public Connection myConnect;
-    public String[][] tasks;
-    public String[][] animals;
-    public String[][] treatments;
+    private Connection myConnect;
+    private String[][] tasks;
+    private String[][] animals;
+    private String[][] treatments;
 
 
     //The constructor will create a connection to the database adnd retrieve the 3 tables
@@ -236,7 +236,7 @@ public class ScheduleBuilder {
         }
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks");}
+        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks for " + animal.getName());}
         return tasks;
     }
 
@@ -330,7 +330,7 @@ public class ScheduleBuilder {
             }
 
         }
-        if(cagesToClean>=1){throw new Error("You cant do feeding tasks");}
+        if(cagesToClean>=1){throw new Error("You cant do feeding tasks for "+ animal.getName());}
 
         return strReturn;
 
@@ -454,7 +454,7 @@ public static void main(String[] args) {
 
 
     //Display the Schedule in terminal
-    for(int i = 0;i<23;i++){
+    for(int i = 0;i<24;i++){
         Hour hour = Schedule.get(i);
         List<String[]> tasksforHour =  hour.getTasks();
 
@@ -476,6 +476,8 @@ public static void main(String[] args) {
 
 
     }
+
+
 }
 }
    
