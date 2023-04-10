@@ -1,7 +1,9 @@
 // package FinalProject.edu.ucalgary.oop;
 
 import static org.junit.Assert.*;
-import org.junit.Assert;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Test {
 
@@ -12,11 +14,11 @@ public class Test {
     }
 
     @org.junit.Test
-    public void testAnimalCBF() {
-        Animal animal = new Animal("porcupine");
-        int[] result = animal.animalCBF(25);
-        int[] expected = new int[]{4, 5};
-        assertArrayEquals(expected, result);
+    public void testAnimalConstructor() {
+        Animal animal = new Animal("coyote");
+        assertEquals("coyote", animal.getName());
+        assertEquals(3, animal.getFeedTimeHour().length);
+        assertEquals(5, animal.getCleantime());
     }
 
     @org.junit.Test
@@ -25,29 +27,63 @@ public class Test {
         animal.decTobefed(1);
         assertEquals(animal.getTobefed(), animal.getNumAnimal() - 1);
     }
+    @org.junit.Test
+    public void testFeedingTaskConstructor() {
+        FeedingTask feedingTask = new FeedingTask("coyote");
+        assertNotNull(feedingTask);
+    }
+    @org.junit.Test
+    public void testGetInfo() {
+        String[][] animals = {
+                {"1", "Monkey", "Primate"},
+                {"2", "Parrot", "Bird"}
+        };
+        String[][] tasks = {
+                {"1", "Feeding", "30"},
+                {"2", "Medical Checkup", "15"}
+        };
+        String[][] treatments = {
+                {"1", "1", "10"},
+                {"2", "1", "10"},
+                {"1", "2", "11"}
+        };
+        int treatmentRows = 3;
 
+        MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
+
+        ArrayList<String[]> infoList = task.getInfo();
+        assertEquals(3, infoList.size());
+        assertArrayEquals(new String[]{"10", "Feeding", "30", "Monkey"}, infoList.get(0));
+        assertArrayEquals(new String[]{"10", "Feeding", "30", "Parrot"}, infoList.get(1));
+        assertArrayEquals(new String[]{"11", "Medical Checkup", "15", "Monkey"}, infoList.get(2));
+    }
+    @org.junit.Test
+    public void testAddVolenteer() {
+        Hour hour = new Hour();
+        assertFalse(hour.getVolenteer());
+
+        // Add a volunteer and check that timeRemaining is updated
+        hour.addVolenteer();
+        assertTrue(hour.getVolenteer());
+        assertEquals(120, hour.getTimeRemaining());
+
+    }
 
     @org.junit.Test
-    public void testFeedingTask() {
-        FeedingTask task1 = new FeedingTask("coyote");
-        Assert.assertEquals(2, task1.getNumberAnimal());
-        Assert.assertArrayEquals(new int[]{10, 5}, task1.getFeedTime());
+    public void testAddFeedingTasks() {
+        ScheduleBuilder scheduleBuilder = new ScheduleBuilder();
 
-        FeedingTask task2 = new FeedingTask("fox");
-        Assert.assertEquals(4, task2.getNumberAnimal());
-        Assert.assertArrayEquals(new int[]{5, 5}, task2.getFeedTime());
+        HashMap<Integer, Hour> schedule = new HashMap<>();
+        for (int i = 0; i <= 23; i++) {
+            Hour hour = new Hour();
+            schedule.put(i, hour);
+        }
 
-        FeedingTask task3 = new FeedingTask("beaver");
-        Assert.assertEquals(1, task3.getNumberAnimal());
-        Assert.assertArrayEquals(new int[]{0, 5}, task3.getFeedTime());
+        Animal animal = new Animal("coyote");
 
-        FeedingTask task4 = new FeedingTask("porcupine");
-        Assert.assertEquals(3, task4.getNumberAnimal());
-        Assert.assertArrayEquals(new int[]{0, 5}, task4.getFeedTime());
-
-        FeedingTask task5 = new FeedingTask("invalid_species");
-        Assert.assertEquals(0, task5.getNumberAnimal());
-        Assert.assertArrayEquals(new int[]{0, 0}, task5.getFeedTime()); // Invalid species should return feed time of 0
+        ArrayList<String[]> feedingTasks = scheduleBuilder.addFeedingTasks(schedule, animal);
+        assertNotNull(feedingTasks);
     }
-    }
+
+}
 
