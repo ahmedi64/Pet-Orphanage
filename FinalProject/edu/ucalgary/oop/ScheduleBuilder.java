@@ -330,6 +330,8 @@ public class ScheduleBuilder {
             }
 
         }
+        if(cagesToClean>=1){throw new Error("You cant do feeding tasks");}
+
         return strReturn;
 
     }
@@ -390,7 +392,16 @@ public static void main(String[] args) {
  
     //Add feeding tasks
     for(int i = 0;i<animalSpecies.length;i++){
-        ArrayList<String[]> feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
+
+        
+        ArrayList<String[]> feedForAnimal = new ArrayList<>();
+        try{
+            feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
+        }
+        catch(Error e){
+            e.printStackTrace();
+        }
+
 
         for(int j = 0;j<feedForAnimal.size();j++){
 
@@ -414,7 +425,15 @@ public static void main(String[] args) {
     for(int i =0;i<animalSpecies.length;i++){
 
         CleaningTask cleaning = new CleaningTask(animalSpecienames[i]);
-        ArrayList<String[]> taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+        ArrayList<String[]> taskForSpecies = new ArrayList<>();
+
+        try{
+            taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+        }
+        catch(Error e){
+            e.printStackTrace();
+        }
+
 
         for(int j = 0;j<taskForSpecies.size();j++){
 
@@ -441,7 +460,18 @@ public static void main(String[] args) {
 
         for(int j=0;j<tasksforHour.size();j++){
             String[] tasks = tasksforHour.get(j);
-            System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
+
+            if(hour.getVolenteer()){
+                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]+ "VOLENTEER NEEDED");
+  
+            }
+            else{
+                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
+
+
+            }
+
+
         }
 
 
