@@ -376,7 +376,7 @@ public class ScheduleBuilder implements FormatSchedule {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MedicalTaskException {
 
         ScheduleBuilder schedule = new ScheduleBuilder();
         int rowsTreatment = schedule.countRows("treatments");

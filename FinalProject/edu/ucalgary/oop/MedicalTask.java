@@ -51,7 +51,7 @@ public class MedicalTask {
         return speciesToOrphans;
     }
 
-    public ArrayList<String[]> getInfo() {
+    public ArrayList<String[]> getInfo() throws MedicalTaskException {
         //this method returns an arraylist with the number of string arrays corresponding to the number of treatment rows
         //it changes up the hours of the treatments based on their corresponding max windows, and ensures no hour has a duration above 60 mins
         //the output string arrays contain the start hour, the task name, the duration per treatment, and the animal ID that the treatment corresponds to
@@ -109,13 +109,13 @@ public class MedicalTask {
                     startHour = startHour + 1;
                     // if the start hour ever increases to 24 because the tasks couldnt fit in the 23rd hour then throw an error
                     if (startHour == 24){
-                        throw new Error("Unable to fit all medical tasks within a 24 hour window!");
+                        throw new MedicalTaskException("Unable to fit all medical tasks within a 24 hour window!");
                     }
                     //decrease maxWindow by 1
                     int newMaxWindow = Integer.parseInt(TASKS[Integer.parseInt(TREATMENTS[windowIndex][1]) - 1][3]) - 1;
                     // check if the newMaxWindow is < 0, which means that the medical tasks cant fit into the scheudle, and throw an error
                      if (newMaxWindow < 0){
-                         throw new Error("The medical tasks cannot fit into the schedule due to an overload of tasks, and the max window of a task being too short");
+                         throw new MedicalTaskException("The medical tasks cannot fit into the schedule due to an overload of tasks, and the max window of a task being too short");
                      }
                     TASKS[Integer.parseInt(TREATMENTS[windowIndex][1]) - 1][3] = Integer.toString(newMaxWindow);
                     //add the remaining duration to the start hour in the Hashmap

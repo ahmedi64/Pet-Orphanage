@@ -33,7 +33,7 @@ public class Test {
         assertNotNull(feedingTask);
     }
     @org.junit.Test
-    public void testGetInfo() {
+    public void testGetInfo() throws MedicalTaskException {
         String[][] animals = {
                 {"1", "Loner", "coyote"},
                 {"7", "Slinky", "fox"}
