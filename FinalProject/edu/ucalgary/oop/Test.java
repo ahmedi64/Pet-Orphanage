@@ -23,7 +23,7 @@ public class Test {
 
     @org.junit.Test
     public void testDecTobefed() {
-        Animal animal = new Animal("raccoon");
+        Animal animal = new Animal("racoon");
         animal.decTobefed(1);
         assertEquals(animal.getTobefed(), animal.getNumAnimal() - 1);
     }
