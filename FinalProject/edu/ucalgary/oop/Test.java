@@ -1,9 +1,10 @@
 // package FinalProject.edu.ucalgary.oop;
-
-import static org.junit.Assert.*;
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 public class Test {
 
@@ -23,40 +24,60 @@ public class Test {
 
     @org.junit.Test
     public void testDecTobefed() {
-        Animal animal = new Animal("raccoon");
+        Animal animal = new Animal("racoon");
         animal.decTobefed(1);
         assertEquals(animal.getTobefed(), animal.getNumAnimal() - 1);
     }
+
+    // Test the constructor and getNumberAnimal() method for a valid animal name
     @org.junit.Test
-    public void testFeedingTaskConstructor() {
-        FeedingTask feedingTask = new FeedingTask("coyote");
-        assertNotNull(feedingTask);
+
+    public void testValidAnimalName() {
+        FeedingTask coyoteTask = new FeedingTask("coyote");
+        assertEquals("The number of coyotes should be 2", 2, coyoteTask.getNumberAnimal());
+    }
+
+
+    // Test the getFeedTime() method for different animal species
+    @org.junit.Test
+    public void testGetFeedTime() {
+        FeedingTask coyoteTask = new FeedingTask("coyote");
+        assertArrayEquals(new int[]{10, 5, 19}, coyoteTask.getFeedTime());
+
+        FeedingTask foxTask = new FeedingTask("fox");
+        assertArrayEquals(new int[]{5, 5, 0}, foxTask.getFeedTime());
+
+        FeedingTask porcupineTask = new FeedingTask("porcupine");
+        assertArrayEquals(new int[]{0, 5, 19}, porcupineTask.getFeedTime());
     }
     @org.junit.Test
-    public void testGetInfo() {
+    public void testGetInfo() throws MedicalTaskException {
         String[][] animals = {
-                {"1", "Monkey", "Primate"},
-                {"2", "Parrot", "Bird"}
+                {"1", "Loner", "coyote"},
+                {"2", "Slinky", "fox"}
         };
         String[][] tasks = {
-                {"1", "Feeding", "30"},
-                {"2", "Medical Checkup", "15"}
+                {"1", "Kit feeding", "30","2"},
+                {"2", "Rebandage leg wound", "20","1"}
         };
         String[][] treatments = {
-                {"1", "1", "10"},
-                {"2", "1", "10"},
-                {"1", "2", "11"}
+                {"1", "1", "0"},
+                {"2", "1", "1"},
+                {"2", "1", "2"}
         };
         int treatmentRows = 3;
 
         MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
 
         ArrayList<String[]> infoList = task.getInfo();
+       
         assertEquals(3, infoList.size());
-        assertArrayEquals(new String[]{"10", "Feeding", "30", "Monkey"}, infoList.get(0));
-        assertArrayEquals(new String[]{"10", "Feeding", "30", "Parrot"}, infoList.get(1));
-        assertArrayEquals(new String[]{"11", "Medical Checkup", "15", "Monkey"}, infoList.get(2));
+        assertArrayEquals(new String[]{"0", "Kit feeding", "30", "Loner"}, infoList.get(0));
+        assertArrayEquals(new String[]{"1", "Kit feeding", "30", "Slinky"}, infoList.get(1));
+        assertArrayEquals(new String[]{"2", "Kit feeding", "30", "Slinky"}, infoList.get(2));
     }
+
+    
     @org.junit.Test
     public void testAddVolenteer() {
         Hour hour = new Hour();
@@ -70,20 +91,33 @@ public class Test {
     }
 
     @org.junit.Test
-    public void testAddFeedingTasks() {
-        ScheduleBuilder scheduleBuilder = new ScheduleBuilder();
+    public void testValidAnimalNames() {
+        CleaningTask coyoteTask = new CleaningTask("coyote");
+        assertEquals(5, coyoteTask.getCleanTime());
 
-        HashMap<Integer, Hour> schedule = new HashMap<>();
-        for (int i = 0; i <= 23; i++) {
-            Hour hour = new Hour();
-            schedule.put(i, hour);
-        }
+        CleaningTask porcupineTask = new CleaningTask("porcupine");
+        assertEquals(10, porcupineTask.getCleanTime());
+    }
 
-        Animal animal = new Animal("coyote");
+    // Test the constructor for an invalid animal name, expecting an IllegalArgumentException
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void testInvalidAnimalName() {
+        CleaningTask invalidTask = new CleaningTask("invalidAnimal");
+    }
 
-        ArrayList<String[]> feedingTasks = scheduleBuilder.addFeedingTasks(schedule, animal);
-        assertNotNull(feedingTasks);
+    // Test the cleanCBF() method for various inputs
+    @org.junit.Test
+    public void testCleanCBF() {
+        CleaningTask foxTask = new CleaningTask("fox");
+        assertArrayEquals(new int[]{3, 1}, foxTask.cleanCBF(16));
+
+        CleaningTask racoonTask = new CleaningTask("racoon");
+        assertArrayEquals(new int[]{2, 0}, racoonTask.cleanCBF(10));
+
+        CleaningTask porcupineTask = new CleaningTask("porcupine");
+        assertArrayEquals(new int[]{1, 3}, porcupineTask.cleanCBF(13));
     }
 
 }
+
 

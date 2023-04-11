@@ -1,12 +1,15 @@
 // package FinalProject.edu.ucalgary.oop;
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
 
+import javax.naming.InvalidNameException;
 import java.sql.*;
 
 public class FeedingTask {
     private int numberAnimal;
     private int[] feedTime= new int[3];
 
-    public FeedingTask(String name) {
+    public FeedingTask(String name) throws IllegalArgumentException {
         String species = name.toLowerCase();
         try {
             // Connect to the database
@@ -50,7 +53,7 @@ public class FeedingTask {
                     feedTime[2] = 8;
                     break;
                 default:
-                    System.out.println("Invalid animal name.");
+                    throw new IllegalArgumentException("Invalid animal name: " + name);
             }
 
             // Close the database connection

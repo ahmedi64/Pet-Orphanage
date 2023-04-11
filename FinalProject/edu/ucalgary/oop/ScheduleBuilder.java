@@ -1,16 +1,21 @@
 // package FinalProject.edu.ucalgary.oop;
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
+
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.*;
 
-public class ScheduleBuilder {
+public class ScheduleBuilder implements FormatSchedule {
 
-    public Connection myConnect;
-    public String[][] tasks;
-    public String[][] animals;
-    public String[][] treatments;
+    private Connection myConnect;
+    private String[][] tasks;
+    private String[][] animals;
+    private String[][] treatments;
 
 
     //The constructor will create a connection to the database adnd retrieve the 3 tables
@@ -142,7 +147,7 @@ public class ScheduleBuilder {
 
     //Look at the data for feeding tasks and the current schedule and figure out which hours can be filled
     //with feeding tasks
-    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal){
+    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingException{
 
         //Create the return array and make a variable that will show how many animals need to be fed. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -172,8 +177,11 @@ public class ScheduleBuilder {
 
             //If the animasl that can be fed in the hour is greater than the number of animals that need to be fed
             //then just change the number of animals that can be fed to the number of animals that need to be fed.
+            int timeRemainingAfterFeed = animalCanBeFed[1];
+
             if(num-animalCanBeFed[0]<0){
                 animalCanBeFed[0] = num;
+                timeRemainingAfterFeed = animal.animalTime(num);
             }
 
             //Check to see if any animals can be fed during this hour.
@@ -182,9 +190,10 @@ public class ScheduleBuilder {
 
                 String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
 
-                String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-animalCanBeFed[1]),animal.getName(),"false"};
+                String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-timeRemainingAfterFeed),animal.getName(),"false"};
                 tasks.add(tmp);
                 hour.setTimeRemaining(animalCanBeFed[0]);
+
 
                 num = num - animalCanBeFed[0];
                 animal.decTobefed(animalCanBeFed[0]);
@@ -192,11 +201,11 @@ public class ScheduleBuilder {
 
 
         }
+        System.out.println(animal.getName()+" "+ animal.tobefed);
 
 
         //It does this if we are unable to fit all the animals and we need backup volenteers
         if(animal.getTobefed()>=1){
-
             //Each animal is fed at certain time intervals depending on what time of the day they are most active
             //This for loop goes thorugh every hour that the input animal can be fed at
             for(int i = 0;i < 3;i++){
@@ -215,11 +224,17 @@ public class ScheduleBuilder {
                 //perfect into that one hour
                 int hourToFeed = animal.getFeedTimeHour()[i];
                 Hour hour = Scheduele.get(hourToFeed);
+
+
                 int timeRemaining = hour.getTimeRemaining();
                 int animalCanBeFed[] = animal.animalCBF(timeRemaining+60);
+
+                int timeRemainingAfterFeed = animalCanBeFed[1];
+
     
                 if(num-animalCanBeFed[0]<0){
                     animalCanBeFed[0] = num;
+                    timeRemainingAfterFeed = num;
                 }
                 //Check to see if any animals can be fed during this hour.
                 //If they can then add values into the return arrayList and minus values for tracking resons;
@@ -227,23 +242,26 @@ public class ScheduleBuilder {
 
                     String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
 
-                    String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-animalCanBeFed[1]),animal.getName(),"true"};
+                    String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-timeRemainingAfterFeed),animal.getName(),"true"};
                     tasks.add(tmp);
                     hour.setTimeRemaining(animalCanBeFed[1]);
                     num = num -animalCanBeFed[0];
+                    animal.decTobefed(animalCanBeFed[0]);
+
                 }
             }
         }
+        System.out.println(animal.getName()+" "+ animal.tobefed);
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks");}
+        if(animal.getTobefed()>=1){throw new AnimalFeedingException("You cant do feeding tasks for " + animal.getName());}
         return tasks;
     }
 
 
     //Look at the data for cleaning tasks and the current schedule and figure out which hours can be filled
     //with cleaning tasks
-    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal){
+    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal) throws AnimalFeedingException{
         
         //Create the return array and make a variable that will show how many cages must be cleaned. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -259,7 +277,6 @@ public class ScheduleBuilder {
                 continue;
             }
             
-
             //Get the hour object currently assosiated with that hour so we have the ability to 
             //add tasks to it. From the hour get the time reamaining which is the time which is not being used 
             //in the hour.
@@ -330,7 +347,7 @@ public class ScheduleBuilder {
             }
 
         }
-        if(cagesToClean>=1){throw new Error("You cant do feeding tasks");}
+        if(cagesToClean>=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName());}
 
         return strReturn;
 
@@ -338,151 +355,178 @@ public class ScheduleBuilder {
 
 
 
-
-
-public static void main(String[] args) {
-
-    ScheduleBuilder schedule = new ScheduleBuilder();
-    int rowsTreatment = schedule.countRows("treatments");
-    HashMap<Integer,Hour> Schedule = new HashMap<>();
-
-    for (int i = 0; i <= 23; i++) {
-        Hour hour = new Hour(); // create an instance of the Hour object
-        Schedule.put(i, hour); // add the element to the map
-    }
-
-
-    //get the medical tasks from Medical Task Class
-    MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),rowsTreatment);
-    ArrayList<String[]> medicalTasks = medicalTask.getInfo();
-
-
-    //Add all the Medical Tasks to the Hashmap Hour
-    for(int i=0;i<medicalTasks.size();i++){
-        String hour= medicalTasks.get(i)[0];
-        String taskName= medicalTasks.get(i)[1];
-        String duration= medicalTasks.get(i)[2];
-        String animalNickname= medicalTasks.get(i)[3];        
-        
-        Schedule.get(Integer.parseInt(hour)).addTasks(taskName, Integer.parseInt(duration) , animalNickname);
-    }
+    @Override
+    public void formatSchedule(HashMap<Integer,Hour> Schedule) {
+        // Create a new JFrame window
+      JFrame frame = new JFrame("Schedule");
+      JTextArea textArea = new JTextArea();
+      JScrollPane scrollPane = new JScrollPane(textArea);
+      frame.add(scrollPane);
+      frame.setSize(300, 200);
+      frame.setVisible(true);
+      
+        for(int i = 0;i<24;i++){
+            Hour hour = Schedule.get(i);
+            List<String[]> tasksforHour =  hour.getTasks();
     
-
-    //Create instances of the Animal Species and then add them into an array
-    Animal coyotes = new Animal("coyote"); 
-    Animal beavers = new Animal("beaver"); 
-    Animal racoons = new Animal("racoon"); 
-    Animal foxes = new Animal("fox"); 
-    Animal porcupines = new Animal("porcupine"); 
-    Animal[] animalSpecies = {coyotes,beavers,racoons,foxes,porcupines};
-
-
-    //Check to see if there are any animals that were already fed in Medical tasks, if
-    //there was then minus them from the total amounts of animals that need to be fed.
-    for(int i =0;i<animalSpecies.length;i++){
-        try {
-            Integer orphans = medicalTask.getAnimalsFed().get(animalSpecies[i].getName());
-            if(orphans != null){
-                animalSpecies[i].decTobefed(1);
+            try{tasksforHour.get(0);
+                textArea.append("Hour "+i+"\n");
             }
-        } catch (SQLException e) {e.printStackTrace();}
-
-    }
-    
- 
-    //Add feeding tasks
-    for(int i = 0;i<animalSpecies.length;i++){
-
-        
-        ArrayList<String[]> feedForAnimal = new ArrayList<>();
-        try{
-            feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
-        }
-        catch(Error e){
-            e.printStackTrace();
-        }
-
-
-        for(int j = 0;j<feedForAnimal.size();j++){
-
-            int hour= Integer.parseInt(feedForAnimal.get(j)[0]);
-            String taskName= feedForAnimal.get(j)[1];
-            int duration= Integer.parseInt(feedForAnimal.get(j)[2]); 
-            String animalNickname= feedForAnimal.get(j)[3]; 
-            boolean volenteer = Boolean.valueOf(feedForAnimal.get(j)[4]);
-            Hour mapHour =  Schedule.get(hour);
-                
-            if(volenteer){mapHour.addVolenteer();}
-
-            mapHour.addTasks(taskName, duration , animalNickname);
-        }
-    }
-
-
-    String[] animalSpecienames = {"coyote","beaver","racoon","fox","porcupine"};
-
-    //add cleaning tasks
-    for(int i =0;i<animalSpecies.length;i++){
-
-        CleaningTask cleaning = new CleaningTask(animalSpecienames[i]);
-        ArrayList<String[]> taskForSpecies = new ArrayList<>();
-
-        try{
-            taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
-        }
-        catch(Error e){
-            e.printStackTrace();
-        }
-
-
-        for(int j = 0;j<taskForSpecies.size();j++){
-
-            int hour= Integer.parseInt(taskForSpecies.get(j)[0]);
-            String taskName= taskForSpecies.get(j)[1];
-            int duration= Integer.parseInt(taskForSpecies.get(j)[2]); 
-            String animalNickname= taskForSpecies.get(j)[3]; 
-            boolean volenteer = Boolean.valueOf(taskForSpecies.get(j)[4]);
-            Hour mapHour =  Schedule.get(hour);
-
-            if(volenteer){mapHour.addVolenteer();}
-
-            mapHour.addTasks(taskName, duration , animalNickname);           
-
-        }
-    }
-
-
-
-    //Display the Schedule in terminal
-    for(int i = 0;i<23;i++){
-        Hour hour = Schedule.get(i);
-        List<String[]> tasksforHour =  hour.getTasks();
-
-        for(int j=0;j<tasksforHour.size();j++){
-            String[] tasks = tasksforHour.get(j);
-
-            if(hour.getVolenteer()){
-                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]+ "VOLENTEER NEEDED");
-  
-            }
-            else{
-                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
-
-
-            }
-
-
-        }
-
-
-    }
-}
-}
-   
+            catch(IndexOutOfBoundsException e){}
             
+            for(int j=0;j<tasksforHour.size();j++){
+                String[] tasks = tasksforHour.get(j);
+    
+                if(hour.getVolenteer()){
+                    textArea.append("      Task:"+tasks[0]+" Animal:"+tasks[1]+ " **VOLENTEER NEEDED**"+"\n");
+      
+                }
+                else{
+                    textArea.append("      Task:"+tasks[0]+" Animal:"+tasks[1]+"\n");
+    
+    
+                }
+            }
+        }    
+    }
 
 
 
+    public static void main(String[] args) throws MedicalTaskException {
+
+        ScheduleBuilder schedule = new ScheduleBuilder();
+        int rowsTreatment = schedule.countRows("treatments");
+        HashMap<Integer,Hour> Schedule = new HashMap<>();
+
+        for (int i = 0; i <= 23; i++) {
+            Hour hour = new Hour(); // create an instance of the Hour object
+            Schedule.put(i, hour); // add the element to the map
+        }
+
+
+        //get the medical tasks from Medical Task Class
+        MedicalTask medicalTask = new MedicalTask(schedule.getAnimals(),schedule.getTasks(),schedule.getTreatments(),rowsTreatment);
+        ArrayList<String[]> medicalTasks = medicalTask.getInfo();
+
+
+        //Add all the Medical Tasks to the Hashmap Hour
+        for(int i=0;i<medicalTasks.size();i++){
+            String hour= medicalTasks.get(i)[0];
+            String taskName= medicalTasks.get(i)[1];
+            String duration= medicalTasks.get(i)[2];
+            String animalNickname= medicalTasks.get(i)[3];        
+            
+            Schedule.get(Integer.parseInt(hour)).addTasks(taskName, Integer.parseInt(duration) , animalNickname);
+        }
+        
+
+        //Create instances of the Animal Species and then add them into an array
+        Animal coyotes = new Animal("coyote"); 
+        Animal beavers = new Animal("beaver"); 
+        Animal racoons = new Animal("racoon"); 
+        Animal foxes = new Animal("fox"); 
+        Animal porcupines = new Animal("porcupine"); 
+        Animal[] animalSpecies = {coyotes,beavers,racoons,foxes,porcupines};
+
+
+        //Check to see if there are any animals that were already fed in Medical tasks, if
+        //there was then minus them from the total amounts of animals that need to be fed.
+        for(int i =0;i<animalSpecies.length;i++){
+            try {
+                Integer orphans = medicalTask.getAnimalsFed().get(animalSpecies[i].getName());
+                if(orphans != null){
+                    animalSpecies[i].decTobefed(1);
+                }
+            } catch (SQLException e) {e.printStackTrace();}
+
+        }
+        
+    
+        //Add feeding tasks
+        for(int i = 0;i<animalSpecies.length;i++){
+
+            
+            ArrayList<String[]> feedForAnimal = new ArrayList<>();
+            try{
+                feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
+            }
+            catch(AnimalFeedingException e){
+                e.printStackTrace();
+            }
+
+
+            for(int j = 0;j<feedForAnimal.size();j++){
+
+                int hour= Integer.parseInt(feedForAnimal.get(j)[0]);
+                String taskName= feedForAnimal.get(j)[1];
+                int duration= Integer.parseInt(feedForAnimal.get(j)[2]); 
+                String animalNickname= feedForAnimal.get(j)[3]; 
+                boolean volenteer = Boolean.valueOf(feedForAnimal.get(j)[4]);
+                Hour mapHour =  Schedule.get(hour);
+                    
+                if(volenteer){mapHour.addVolenteer();}
+
+                mapHour.addTasks(taskName, duration , animalNickname);
+            }
+        }
+
+
+        String[] animalSpecienames = {"coyote","beaver","racoon","fox","porcupine"};
+
+        //add cleaning tasks
+        for(int i =0;i<animalSpecies.length;i++){
+
+            CleaningTask cleaning = new CleaningTask(animalSpecienames[i]);
+            ArrayList<String[]> taskForSpecies = new ArrayList<>();
+
+            try{
+                taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+            }
+            catch(AnimalFeedingException e){
+                e.printStackTrace();
+            }
+
+            for(int j = 0;j<taskForSpecies.size();j++){
+
+                int hour= Integer.parseInt(taskForSpecies.get(j)[0]);
+                String taskName= taskForSpecies.get(j)[1];
+                int duration= Integer.parseInt(taskForSpecies.get(j)[2]); 
+                String animalNickname= taskForSpecies.get(j)[3]; 
+                boolean volenteer = Boolean.valueOf(taskForSpecies.get(j)[4]);
+                Hour mapHour =  Schedule.get(hour);
+
+                if(volenteer){mapHour.addVolenteer();}
+
+                mapHour.addTasks(taskName, duration , animalNickname);           
+
+            }
+        }
+
+      
+        for(int i = 0;i<24;i++){
+            Hour hour = Schedule.get(i);
+            List<String[]> tasksforHour =  hour.getTasks();
+    
+         
+            
+            for(int j=0;j<tasksforHour.size();j++){
+                String[] tasks = tasksforHour.get(j);
+    
+               
+                    System.out.println("Hour "+i+"  Duration"+hour.getTimeRemaining()  + "  VOLENTEER NEEDED  "+hour.getVolenteer() );
+      
+                
+               
+            }
+        }    
+        // //Display the Schedule in terminal
+        schedule.formatSchedule(Schedule);   
+    
+
+
+
+    }
+}
 
 
 

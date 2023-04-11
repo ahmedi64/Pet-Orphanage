@@ -1,5 +1,6 @@
 // package FinalProject.edu.ucalgary.oop;
-
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
 public class Animal{
     public String name;
     public int numanimal;
@@ -51,6 +52,10 @@ public class Animal{
 
         int numanimalCBF=min/onefeed;
         return new int[]{numanimalCBF, min % onefeed};
+    }
+
+    public int animalTime(int animals){
+        return prepfeed+ animals*onefeed;
     }
 
     public int[] getFeedTimeHour() {
