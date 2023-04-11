@@ -1,4 +1,4 @@
-// package FinalProject.edu.ucalgary.oop;
+package edu.ucalgary.oop;
 //Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rhishik Roy
 //Code version: 11.0.17
 public class Animal{
@@ -31,6 +31,7 @@ public class Animal{
 
     }
     public void decTobefed(int num) {
+        //Decreases the number of animals to be fed by 1.
         this.tobefed = this.tobefed - num;
     }
 
@@ -47,6 +48,7 @@ public class Animal{
     }
 
     public int[] animalCBF(int min){
+        //Provides the number of animals that can be fed in a particular time and also the time remaining after feeding the animals.
         min=min-prepfeed;
 
 
@@ -55,6 +57,7 @@ public class Animal{
     }
 
     public int animalTime(int animals){
+        //Provides the time to feed a particular number of animals.
         return prepfeed+ animals*onefeed;
     }
 
