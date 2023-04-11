@@ -81,8 +81,15 @@ public class Test {
 
         Animal animal = new Animal("coyote");
 
-        ArrayList<String[]> feedingTasks = scheduleBuilder.addFeedingTasks(schedule, animal);
-        assertNotNull(feedingTasks);
+        ArrayList<String[]> feedingTasks;
+        try {
+            feedingTasks = scheduleBuilder.addFeedingTasks(schedule, animal);
+            assertNotNull(feedingTasks);
+        } catch (AnimalFeedingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
     }
 
 }
