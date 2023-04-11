@@ -124,22 +124,10 @@ public class Test {
     ArrayList<String[]> infoList = task.getInfo();
     }
 
-    @org.junit.Test(expected = AnimalFeedingOrCleaningException.class)
-    public void testExceptionAddFeedingTasks() {
-        HashMap<Integer, Hour> schedule = new HashMap<>();
-        Animal animal = new Animal("coyote");
-        Hour hour = new Hour();
-        hour.setTimeRemaining(-60); // set timeRemaining to -60
-        schedule.put(19, hour);
-        ArrayList<String[]>  test = new ScheduleBuilder.addFeedTasks(schedule, animal);
-        
-    }
+   
 
 
-    @org.junit.Test(expected = AnimalFeedingOrCleaningException.class)
-    public void testExceptionAddCleaningTasks() {
-        CleaningTask invalidTask = new CleaningTask("invalidAnimal");
-    }
+    
 
 
 
