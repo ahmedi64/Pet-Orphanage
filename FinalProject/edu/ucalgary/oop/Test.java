@@ -1,9 +1,8 @@
 // package FinalProject.edu.ucalgary.oop;
-//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rhishik Roy
 //Code version: 11.0.17
 
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 public class Test {
