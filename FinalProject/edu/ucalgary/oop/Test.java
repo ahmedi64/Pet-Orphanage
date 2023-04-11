@@ -1,4 +1,6 @@
 // package FinalProject.edu.ucalgary.oop;
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
 
 import java.util.ArrayList;
 
@@ -49,7 +51,7 @@ public class Test {
         assertArrayEquals(new int[]{0, 5, 19}, porcupineTask.getFeedTime());
     }
     @org.junit.Test
-    public void testGetInfo() {
+    public void testGetInfo() throws MedicalTaskException {
         String[][] animals = {
                 {"1", "Loner", "coyote"},
                 {"7", "Slinky", "fox"}

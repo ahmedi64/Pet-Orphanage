@@ -1,4 +1,6 @@
 // package FinalProject.edu.ucalgary.oop;
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Code version: 11.0.17
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -376,7 +378,7 @@ public class ScheduleBuilder implements FormatSchedule {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MedicalTaskException {
 
         ScheduleBuilder schedule = new ScheduleBuilder();
         int rowsTreatment = schedule.countRows("treatments");

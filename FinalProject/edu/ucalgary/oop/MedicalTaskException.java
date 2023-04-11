@@ -2,8 +2,8 @@
 //Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
 //Code version: 11.0.17
 
-public class AnimalFeedingException extends Exception {
-    public AnimalFeedingException(String message) {
+public class MedicalTaskException extends Exception{
+    public MedicalTaskException(String message) {
         super(message);
     }
 }
