@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class ScheduleBuilder implements FormatSchedule {
 
-    private Connection myConnect;
+    private static Connection myConnect;
     private String[][] tasks;
     private String[][] animals;
     private String[][] treatments;
@@ -145,6 +145,27 @@ public class ScheduleBuilder implements FormatSchedule {
     }
 
 
+    //Update values in the database
+    public static void changeDatabase(int taskID,int animalID,int newStartHour,int oldStartHour){
+        try {
+            String sql = "UPDATE TREATMENTS SET StartHour = ? WHERE AnimalID = ? AND TaskID = ? AND StartHour = ?";
+            PreparedStatement pstmt = myConnect.prepareStatement(sql);
+            
+            // Set the ? to actual values         
+            pstmt.setInt(1, newStartHour);
+            pstmt.setInt(2, animalID);
+            pstmt.setInt(3, taskID);
+            pstmt.setInt(4, oldStartHour);
+            
+            pstmt.executeUpdate();
+            
+            // Close the PreparedStatement and Connection objects
+            pstmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     //Look at the data for feeding tasks and the current schedule and figure out which hours can be filled
     //with feeding tasks
     public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingException{
@@ -201,7 +222,6 @@ public class ScheduleBuilder implements FormatSchedule {
 
 
         }
-        System.out.println(animal.getName()+" "+ animal.tobefed);
 
 
         //It does this if we are unable to fit all the animals and we need backup volenteers
@@ -251,10 +271,13 @@ public class ScheduleBuilder implements FormatSchedule {
                 }
             }
         }
-        System.out.println(animal.getName()+" "+ animal.tobefed);
 
-        //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new AnimalFeedingException("You cant do feeding tasks for " + animal.getName());}
+        //If even adding backup volenteers we still cant feed all the animals then throw a new message.
+        if(animal.getTobefed()!=0){
+            throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName(), animal.getFeedTimeHour()[0],Integer.parseInt(this.tasks[animal.getFeedTimeHour()[0]][1]), Integer.parseInt(this.animals[animal.getFeedTimeHour()[0]][0]));
+        }
+
+
         return tasks;
     }
 
@@ -347,8 +370,7 @@ public class ScheduleBuilder implements FormatSchedule {
             }
 
         }
-        if(cagesToClean>=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName());}
-
+        if(cagesToClean!=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName(), animal.getFeedTimeHour()[0],Integer.parseInt(tasks[animal.getFeedTimeHour()[0]][1]),Integer.parseInt(animals[animal.getFeedTimeHour()[0]][0]));}
         return strReturn;
 
     }
@@ -452,8 +474,22 @@ public class ScheduleBuilder implements FormatSchedule {
             }
             catch(AnimalFeedingException e){
                 e.printStackTrace();
-            }
 
+                JFrame frame = new JFrame("Put in new Hour");
+                JTextField textField = new JTextField(20);
+
+                int result = JOptionPane.showConfirmDialog(
+                        frame,
+                        textField,
+                        "Enter a value:",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+        
+                if (result == JOptionPane.OK_OPTION) {
+                    String newStartHour = textField.getText();
+                    changeDatabase(e.getTaskID(),e.getAnimalID(),Integer.parseInt(newStartHour),e.getOldStartHour());
+                }
+            }
 
             for(int j = 0;j<feedForAnimal.size();j++){
 
@@ -484,6 +520,22 @@ public class ScheduleBuilder implements FormatSchedule {
             }
             catch(AnimalFeedingException e){
                 e.printStackTrace();
+                e.printStackTrace();
+
+                JFrame frame = new JFrame("Put in new Hour");
+                JTextField textField = new JTextField(20);
+
+                int result = JOptionPane.showConfirmDialog(
+                        frame,
+                        textField,
+                        "Enter a value:",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+        
+                if (result == JOptionPane.OK_OPTION) {
+                    String newStartHour = textField.getText();
+                    changeDatabase(e.getTaskID(),e.getAnimalID(),Integer.parseInt(newStartHour),e.getOldStartHour());
+                }
             }
 
             for(int j = 0;j<taskForSpecies.size();j++){
@@ -502,23 +554,7 @@ public class ScheduleBuilder implements FormatSchedule {
             }
         }
 
-      
-        for(int i = 0;i<24;i++){
-            Hour hour = Schedule.get(i);
-            List<String[]> tasksforHour =  hour.getTasks();
-    
-         
-            
-            for(int j=0;j<tasksforHour.size();j++){
-                String[] tasks = tasksforHour.get(j);
-    
-               
-                    System.out.println("Hour "+i+"  Duration"+hour.getTimeRemaining()  + "  VOLENTEER NEEDED  "+hour.getVolenteer() );
-      
-                
-               
-            }
-        }    
+       
         // //Display the Schedule in terminal
         schedule.formatSchedule(Schedule);   
     
