@@ -92,6 +92,33 @@ public class Test {
         }
         
     }
+    @org.junit.Test
+    public void testValidAnimalNames() {
+        CleaningTask coyoteTask = new CleaningTask("coyote");
+        assertEquals(5, coyoteTask.getCleanTime());
+
+        CleaningTask porcupineTask = new CleaningTask("porcupine");
+        assertEquals(10, porcupineTask.getCleanTime());
+    }
+
+    // Test the constructor for an invalid animal name, expecting an IllegalArgumentException
+    @org.junit.Test(expected = IllegalArgumentException.class)
+    public void testInvalidAnimalName() {
+        CleaningTask invalidTask = new CleaningTask("invalidAnimal");
+    }
+
+    // Test the cleanCBF() method for various inputs
+    @org.junit.Test
+    public void testCleanCBF() {
+        CleaningTask foxTask = new CleaningTask("fox");
+        assertArrayEquals(new int[]{3, 1}, foxTask.cleanCBF(16));
+
+        CleaningTask racoonTask = new CleaningTask("racoon");
+        assertArrayEquals(new int[]{2, 0}, racoonTask.cleanCBF(10));
+
+        CleaningTask porcupineTask = new CleaningTask("porcupine");
+        assertArrayEquals(new int[]{1, 3}, porcupineTask.cleanCBF(13));
+    }
 
 }
 
