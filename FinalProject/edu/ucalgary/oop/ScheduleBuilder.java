@@ -2,6 +2,8 @@
 //Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
 //Code version: 11.0.17
 
+
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,8 +177,11 @@ public class ScheduleBuilder implements FormatSchedule {
 
             //If the animasl that can be fed in the hour is greater than the number of animals that need to be fed
             //then just change the number of animals that can be fed to the number of animals that need to be fed.
+            int timeRemainingAfterFeed = animalCanBeFed[1];
+
             if(num-animalCanBeFed[0]<0){
                 animalCanBeFed[0] = num;
+                timeRemainingAfterFeed = animal.animalTime(num);
             }
 
             //Check to see if any animals can be fed during this hour.
@@ -185,9 +190,10 @@ public class ScheduleBuilder implements FormatSchedule {
 
                 String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
 
-                String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-animalCanBeFed[1]),animal.getName(),"false"};
+                String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-timeRemainingAfterFeed),animal.getName(),"false"};
                 tasks.add(tmp);
                 hour.setTimeRemaining(animalCanBeFed[0]);
+
 
                 num = num - animalCanBeFed[0];
                 animal.decTobefed(animalCanBeFed[0]);
@@ -195,11 +201,11 @@ public class ScheduleBuilder implements FormatSchedule {
 
 
         }
+        System.out.println(animal.getName()+" "+ animal.tobefed);
 
 
         //It does this if we are unable to fit all the animals and we need backup volenteers
         if(animal.getTobefed()>=1){
-
             //Each animal is fed at certain time intervals depending on what time of the day they are most active
             //This for loop goes thorugh every hour that the input animal can be fed at
             for(int i = 0;i < 3;i++){
@@ -218,11 +224,17 @@ public class ScheduleBuilder implements FormatSchedule {
                 //perfect into that one hour
                 int hourToFeed = animal.getFeedTimeHour()[i];
                 Hour hour = Scheduele.get(hourToFeed);
+
+
                 int timeRemaining = hour.getTimeRemaining();
                 int animalCanBeFed[] = animal.animalCBF(timeRemaining+60);
+
+                int timeRemainingAfterFeed = animalCanBeFed[1];
+
     
                 if(num-animalCanBeFed[0]<0){
                     animalCanBeFed[0] = num;
+                    timeRemainingAfterFeed = num;
                 }
                 //Check to see if any animals can be fed during this hour.
                 //If they can then add values into the return arrayList and minus values for tracking resons;
@@ -230,13 +242,16 @@ public class ScheduleBuilder implements FormatSchedule {
 
                     String str = "Feed "+animalCanBeFed[0]+" "+animal.getName();
 
-                    String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-animalCanBeFed[1]),animal.getName(),"true"};
+                    String[] tmp = {Integer.toString(hourToFeed) ,str, Integer.toString(timeRemaining-timeRemainingAfterFeed),animal.getName(),"true"};
                     tasks.add(tmp);
                     hour.setTimeRemaining(animalCanBeFed[1]);
                     num = num -animalCanBeFed[0];
+                    animal.decTobefed(animalCanBeFed[0]);
+
                 }
             }
         }
+        System.out.println(animal.getName()+" "+ animal.tobefed);
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
         if(animal.getTobefed()>=1){throw new AnimalFeedingException("You cant do feeding tasks for " + animal.getName());}
@@ -262,7 +277,6 @@ public class ScheduleBuilder implements FormatSchedule {
                 continue;
             }
             
-
             //Get the hour object currently assosiated with that hour so we have the ability to 
             //add tasks to it. From the hour get the time reamaining which is the time which is not being used 
             //in the hour.
@@ -364,7 +378,7 @@ public class ScheduleBuilder implements FormatSchedule {
                 String[] tasks = tasksforHour.get(j);
     
                 if(hour.getVolenteer()){
-                    textArea.append("      Task:"+tasks[0]+" Animal:"+tasks[1]+ "VOLENTEER NEEDED"+"\n");
+                    textArea.append("      Task:"+tasks[0]+" Animal:"+tasks[1]+ " **VOLENTEER NEEDED**"+"\n");
       
                 }
                 else{
@@ -487,8 +501,32 @@ public class ScheduleBuilder implements FormatSchedule {
 
             }
         }
-        //Display the Schedule in terminal
-        schedule.formatSchedule(Schedule);   
-    }
 
+      
+        for(int i = 0;i<24;i++){
+            Hour hour = Schedule.get(i);
+            List<String[]> tasksforHour =  hour.getTasks();
+    
+         
+            
+            for(int j=0;j<tasksforHour.size();j++){
+                String[] tasks = tasksforHour.get(j);
+    
+               
+                    System.out.println("Hour "+i+"  Duration"+hour.getTimeRemaining()  + "  VOLENTEER NEEDED  "+hour.getVolenteer() );
+      
+                
+               
+            }
+        }    
+        // //Display the Schedule in terminal
+        schedule.formatSchedule(Schedule);   
+    
+
+
+
+    }
 }
+
+
+

@@ -54,12 +54,14 @@ public class Test {
         MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
 
         ArrayList<String[]> infoList = task.getInfo();
+       
         assertEquals(3, infoList.size());
         assertArrayEquals(new String[]{"0", "Kit feeding", "30", "fox"}, infoList.get(0));
         assertArrayEquals(new String[]{"2", "Kit feeding", "30", "fox"}, infoList.get(1));
         assertArrayEquals(new String[]{"4", "Kit feeding", "30", "fox"}, infoList.get(2));
     }
 
+    
     @org.junit.Test
     public void testAddVolenteer() {
         Hour hour = new Hour();

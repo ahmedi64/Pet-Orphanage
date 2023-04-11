@@ -54,6 +54,10 @@ public class Animal{
         return new int[]{numanimalCBF, min % onefeed};
     }
 
+    public int animalTime(int animals){
+        return prepfeed+ animals*onefeed;
+    }
+
     public int[] getFeedTimeHour() {
         return feedtimehour;
     }
