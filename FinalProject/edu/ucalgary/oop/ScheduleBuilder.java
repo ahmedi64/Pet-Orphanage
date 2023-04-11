@@ -147,7 +147,7 @@ public class ScheduleBuilder implements FormatSchedule {
 
     //Look at the data for feeding tasks and the current schedule and figure out which hours can be filled
     //with feeding tasks
-    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingException{
+    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingOrCleaningException{
 
         //Create the return array and make a variable that will show how many animals need to be fed. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -254,14 +254,14 @@ public class ScheduleBuilder implements FormatSchedule {
         System.out.println(animal.getName()+" "+ animal.tobefed);
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new AnimalFeedingException("You cant do feeding tasks for " + animal.getName());}
+        if(animal.getTobefed()>=1){throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for " + animal.getName());}
         return tasks;
     }
 
 
     //Look at the data for cleaning tasks and the current schedule and figure out which hours can be filled
     //with cleaning tasks
-    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal) throws AnimalFeedingException{
+    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal) throws AnimalFeedingOrCleaningException{
         
         //Create the return array and make a variable that will show how many cages must be cleaned. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -347,7 +347,7 @@ public class ScheduleBuilder implements FormatSchedule {
             }
 
         }
-        if(cagesToClean>=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName());}
+        if(cagesToClean>=1){throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for "+ animal.getName());}
 
         return strReturn;
 
@@ -450,7 +450,7 @@ public class ScheduleBuilder implements FormatSchedule {
             try{
                 feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
             }
-            catch(AnimalFeedingException e){
+            catch(AnimalFeedingOrCleaningException e){
                 e.printStackTrace();
             }
 
@@ -482,7 +482,7 @@ public class ScheduleBuilder implements FormatSchedule {
             try{
                 taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
             }
-            catch(AnimalFeedingException e){
+            catch(AnimalFeedingOrCleaningException e){
                 e.printStackTrace();
             }
 
