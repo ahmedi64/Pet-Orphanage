@@ -77,7 +77,47 @@ public class Test {
         assertArrayEquals(new String[]{"2", "Kit feeding", "30", "Slinky"}, infoList.get(2));
     }
 
+
+    @org.junit.Test(expected = MedicalTaskException.class)
+    public void testMedicalTaskExceptionMaxWindow() throws MedicalTaskException {
+        String[][] animals = {
+            {"1", "Loner", "coyote"}
+    };
+    String[][] tasks = {
+            {"1", "Eyedrops", "25","1"}
+    };
+    String[][] treatments = {
+            {"1", "1", "0"},
+            {"1", "1", "0"},
+            {"1", "1", "0"},
+            {"1", "1", "1"},
+            {"1", "1", "1"}
+    };
+    int treatmentRows = 5;
+    MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
+
+    ArrayList<String[]> infoList = task.getInfo();
+    }
     
+    @org.junit.Test(expected = MedicalTaskException.class)
+    public void testMedicalTaskExceptionExtraHours() throws MedicalTaskException {
+        String[][] animals = {
+            {"1", "Loner", "coyote"}
+    };
+    String[][] tasks = {
+            {"1", "Eyedrops", "25","1"}
+    };
+    String[][] treatments = {
+            {"1", "1", "23"},
+            {"1", "1", "23"},
+            {"1", "1", "23"}
+    };
+    int treatmentRows = 3;
+    MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
+
+    ArrayList<String[]> infoList = task.getInfo();
+    }
+
     @org.junit.Test
     public void testAddVolenteer() {
         Hour hour = new Hour();
