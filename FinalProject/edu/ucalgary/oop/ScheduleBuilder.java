@@ -30,7 +30,7 @@ public class ScheduleBuilder implements FormatSchedule {
     public void createConnection(){
                 
         try{
-            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
+            myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "oop", "password");
         } catch (SQLException e) {
             e.printStackTrace();
         }

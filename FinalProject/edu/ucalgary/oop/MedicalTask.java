@@ -32,7 +32,7 @@ public class MedicalTask {
         //Create a set so there will be no duplicates of fed animals
         Set<Integer> animalsFed = new HashSet<>();
         // access the animal IDs from the SQL table
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "root", "Jawad195");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "oop", "password");
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT AnimalID FROM TREATMENTS WHERE TaskID = 1")) {
         //get the animal IDs and add them to the set
