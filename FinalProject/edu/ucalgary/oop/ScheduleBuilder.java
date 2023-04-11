@@ -36,6 +36,15 @@ public class ScheduleBuilder implements FormatSchedule {
         }
     }
 
+    public void disconnect(){
+        try {
+            this.myConnect.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     //Using the string input, look at the table that matches the string and count the rows from it
     public int countRows(String tablename){
         try {
@@ -370,7 +379,7 @@ public class ScheduleBuilder implements FormatSchedule {
             }
 
         }
-        if(cagesToClean!=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName(), animal.getFeedTimeHour()[0],Integer.parseInt(tasks[animal.getFeedTimeHour()[0]][1]),Integer.parseInt(animals[animal.getFeedTimeHour()[0]][0]));}
+        if(cagesToClean>=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName(), animal.getFeedTimeHour()[0],1,2);}
         return strReturn;
 
     }
@@ -558,7 +567,8 @@ public class ScheduleBuilder implements FormatSchedule {
         // //Display the Schedule in terminal
         schedule.formatSchedule(Schedule);   
     
-
+        //disconnect from server
+        schedule.disconnect();
 
 
     }
