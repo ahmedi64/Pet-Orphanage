@@ -22,4 +22,5 @@ public class CleaningTask {
         int numanimalCBF=min/cleanTime;
         return new int[]{numanimalCBF, min % cleanTime};
     }
+
 }
