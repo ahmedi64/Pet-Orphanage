@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ScheduleBuilder {
 
-    public Connection myConnect;
-    public String[][] tasks;
-    public String[][] animals;
-    public String[][] treatments;
+    private Connection myConnect;
+    private String[][] tasks;
+    private String[][] animals;
+    private String[][] treatments;
 
 
     //The constructor will create a connection to the database adnd retrieve the 3 tables
@@ -236,7 +236,7 @@ public class ScheduleBuilder {
         }
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks");}
+        if(animal.getTobefed()>=1){throw new Error("You cant do feeding tasks for " + animal.getName());}
         return tasks;
     }
 
@@ -330,6 +330,8 @@ public class ScheduleBuilder {
             }
 
         }
+        if(cagesToClean>=1){throw new Error("You cant do feeding tasks for "+ animal.getName());}
+
         return strReturn;
 
     }
@@ -390,7 +392,16 @@ public static void main(String[] args) {
  
     //Add feeding tasks
     for(int i = 0;i<animalSpecies.length;i++){
-        ArrayList<String[]> feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
+
+        
+        ArrayList<String[]> feedForAnimal = new ArrayList<>();
+        try{
+            feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
+        }
+        catch(Error e){
+            e.printStackTrace();
+        }
+
 
         for(int j = 0;j<feedForAnimal.size();j++){
 
@@ -414,7 +425,15 @@ public static void main(String[] args) {
     for(int i =0;i<animalSpecies.length;i++){
 
         CleaningTask cleaning = new CleaningTask(animalSpecienames[i]);
-        ArrayList<String[]> taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+        ArrayList<String[]> taskForSpecies = new ArrayList<>();
+
+        try{
+            taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
+        }
+        catch(Error e){
+            e.printStackTrace();
+        }
+
 
         for(int j = 0;j<taskForSpecies.size();j++){
 
@@ -435,17 +454,30 @@ public static void main(String[] args) {
 
 
     //Display the Schedule in terminal
-    for(int i = 0;i<23;i++){
+    for(int i = 0;i<24;i++){
         Hour hour = Schedule.get(i);
         List<String[]> tasksforHour =  hour.getTasks();
 
         for(int j=0;j<tasksforHour.size();j++){
             String[] tasks = tasksforHour.get(j);
-            System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
+
+            if(hour.getVolenteer()){
+                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]+ "VOLENTEER NEEDED");
+  
+            }
+            else{
+                System.out.println("Hour: "+i+" Task:"+tasks[0]+" Animal:"+tasks[1]);
+
+
+            }
+
+
         }
 
 
     }
+
+
 }
 
 }
