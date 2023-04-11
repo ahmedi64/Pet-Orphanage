@@ -1,9 +1,9 @@
 // package FinalProject.edu.ucalgary.oop;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static org.junit.Assert.*;
 
 public class Test {
 
@@ -35,17 +35,17 @@ public class Test {
     @org.junit.Test
     public void testGetInfo() {
         String[][] animals = {
-                {"1", "Monkey", "Primate"},
-                {"2", "Parrot", "Bird"}
+                {"1", "Loner", "coyote"},
+                {"7", "Slinky", "fox"}
         };
         String[][] tasks = {
-                {"1", "Feeding", "30"},
-                {"2", "Medical Checkup", "15"}
+                {"1", "Kit feeding", "30"},
+                {"2", "Rebandage leg wound", "20"}
         };
         String[][] treatments = {
-                {"1", "1", "10"},
-                {"2", "1", "10"},
-                {"1", "2", "11"}
+                {"1", "6", "1", "0"},
+                {"2", "6", "1", "2"},
+                {"3", "6", "1", "4"}
         };
         int treatmentRows = 3;
 
@@ -53,10 +53,11 @@ public class Test {
 
         ArrayList<String[]> infoList = task.getInfo();
         assertEquals(3, infoList.size());
-        assertArrayEquals(new String[]{"10", "Feeding", "30", "Monkey"}, infoList.get(0));
-        assertArrayEquals(new String[]{"10", "Feeding", "30", "Parrot"}, infoList.get(1));
-        assertArrayEquals(new String[]{"11", "Medical Checkup", "15", "Monkey"}, infoList.get(2));
+        assertArrayEquals(new String[]{"0", "Kit feeding", "30", "fox"}, infoList.get(0));
+        assertArrayEquals(new String[]{"2", "Kit feeding", "30", "fox"}, infoList.get(1));
+        assertArrayEquals(new String[]{"4", "Kit feeding", "30", "fox"}, infoList.get(2));
     }
+
     @org.junit.Test
     public void testAddVolenteer() {
         Hour hour = new Hour();
