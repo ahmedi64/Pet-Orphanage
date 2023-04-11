@@ -1,9 +1,12 @@
 // package FinalProject.edu.ucalgary.oop;
 
+import org.junit.Before;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Test {
 
@@ -91,7 +94,61 @@ public class Test {
         }
         
     }
+    private Hour hour;
 
+    @Before
+    public void setUp() {
+        hour = new Hour();
+    }
+
+    @org.junit.Test
+    public void testInitialValues() {
+        // Test initial time remaining
+        assertEquals("Initial time remaining should be 60 minutes", 60, hour.getTimeRemaining());
+
+        // Test initial volunteer status
+        assertFalse("Initial volunteer status should be false", hour.getVolenteer());
+    }
+
+    @org.junit.Test
+    public void testAddTasks() {
+        // Add a task
+        hour.addTasks("Feed", 30, "Coyote");
+
+        // Test time remaining after adding a task
+        assertEquals("Time remaining should be reduced after adding a task", 30, hour.getTimeRemaining());
+
+        // Test task list size after adding a task
+        List<String[]> tasks = hour.getTasks();
+        assertEquals("Task list should have one task after adding a task", 1, tasks.size());
+
+        // Test task content
+        String[] task = tasks.get(0);
+        assertEquals("Task name should be 'Feed'", "Feed", task[0]);
+        assertEquals("Task animal should be 'Coyote'", "Coyote", task[1]);
+    }
+
+    @org.junit.Test
+    public void testAddVolunteer() {
+        // Add a volunteer
+        hour.addVolenteer();
+
+        // Test time remaining after adding a volunteer
+        assertEquals("Time remaining should be increased after adding a volunteer", 120, hour.getTimeRemaining());
+
+        // Test volunteer status after adding a volunteer
+        assertTrue("Volunteer status should be true after adding a volunteer", hour.getVolenteer());
+    }
+
+    @org.junit.Test
+    public void testSetTimeRemaining() {
+        // Set time remaining
+        hour.setTimeRemaining(40);
+
+        // Test time remaining after setting it
+        assertEquals("Time remaining should be set to the specified value", 40, hour.getTimeRemaining());
+    }
 }
+
 
 
