@@ -1,5 +1,5 @@
 // package FinalProject.edu.ucalgary.oop;
-//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rhishik Roy
 //Code version: 11.0.17
 
 
@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class ScheduleBuilder implements FormatSchedule {
 
-    private Connection myConnect;
+    private static Connection myConnect;
     private String[][] tasks;
     private String[][] animals;
     private String[][] treatments;
@@ -32,6 +32,15 @@ public class ScheduleBuilder implements FormatSchedule {
         try{
             myConnect = DriverManager.getConnection("jdbc:mysql://localhost/ewr", "root", "Jawad195");
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect(){
+        try {
+            this.myConnect.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -145,9 +154,30 @@ public class ScheduleBuilder implements FormatSchedule {
     }
 
 
+    //Update values in the database
+    public static void changeDatabase(int taskID,int animalID,int newStartHour,int oldStartHour){
+        try {
+            String sql = "UPDATE TREATMENTS SET StartHour = ? WHERE AnimalID = ? AND TaskID = ? AND StartHour = ?";
+            PreparedStatement pstmt = myConnect.prepareStatement(sql);
+            
+            // Set the ? to actual values         
+            pstmt.setInt(1, newStartHour);
+            pstmt.setInt(2, animalID);
+            pstmt.setInt(3, taskID);
+            pstmt.setInt(4, oldStartHour);
+            
+            pstmt.executeUpdate();
+            
+            // Close the PreparedStatement and Connection objects
+            pstmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     //Look at the data for feeding tasks and the current schedule and figure out which hours can be filled
     //with feeding tasks
-    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingException{
+    public ArrayList<String[]> addFeedingTasks(HashMap<Integer,Hour> Scheduele,Animal animal) throws AnimalFeedingOrCleaningException{
 
         //Create the return array and make a variable that will show how many animals need to be fed. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -201,7 +231,6 @@ public class ScheduleBuilder implements FormatSchedule {
 
 
         }
-        System.out.println(animal.getName()+" "+ animal.tobefed);
 
 
         //It does this if we are unable to fit all the animals and we need backup volenteers
@@ -251,17 +280,22 @@ public class ScheduleBuilder implements FormatSchedule {
                 }
             }
         }
-        System.out.println(animal.getName()+" "+ animal.tobefed);
+
+        //If even adding backup volenteers we still cant feed all the animals then throw a new message.
+        if(animal.getTobefed()!=0){
+            throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for "+ animal.getName());
+        }
+
 
         //If even adding backup volenteers we still cant feed all teh animals then throw a new message.
-        if(animal.getTobefed()>=1){throw new AnimalFeedingException("You cant do feeding tasks for " + animal.getName());}
+        if(animal.getTobefed()>=1){throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for " + animal.getName());}
         return tasks;
     }
 
 
     //Look at the data for cleaning tasks and the current schedule and figure out which hours can be filled
     //with cleaning tasks
-    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal) throws AnimalFeedingException{
+    public ArrayList<String[]> addCleaningTasks(HashMap<Integer,Hour> Schedule,CleaningTask cleaning,Animal animal) throws AnimalFeedingOrCleaningException{
         
         //Create the return array and make a variable that will show how many cages must be cleaned. The
         //return array has a list of arrays where each array is[Hour,Task descrpition,duration of task
@@ -347,7 +381,7 @@ public class ScheduleBuilder implements FormatSchedule {
             }
 
         }
-        if(cagesToClean>=1){throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName());}
+        if(cagesToClean>=1){throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for "+ animal.getName());}
 
         return strReturn;
 
@@ -450,10 +484,23 @@ public class ScheduleBuilder implements FormatSchedule {
             try{
                 feedForAnimal =  schedule.addFeedingTasks(Schedule, animalSpecies[i]);
             }
-            catch(AnimalFeedingException e){
+            catch(AnimalFeedingOrCleaningException e){
                 e.printStackTrace();
-            }
 
+                JFrame frame = new JFrame("Put in new Hour");
+                JTextField textField = new JTextField(20);
+
+                int result = JOptionPane.showConfirmDialog(
+                        frame,
+                        textField,
+                        "Enter a value:",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+        
+                if (result == JOptionPane.OK_OPTION) {
+                    String newStartHour = textField.getText();
+                }
+            }
 
             for(int j = 0;j<feedForAnimal.size();j++){
 
@@ -482,8 +529,23 @@ public class ScheduleBuilder implements FormatSchedule {
             try{
                 taskForSpecies = schedule.addCleaningTasks(Schedule,cleaning, animalSpecies[i]);
             }
-            catch(AnimalFeedingException e){
+            catch(AnimalFeedingOrCleaningException e){
                 e.printStackTrace();
+                e.printStackTrace();
+
+                JFrame frame = new JFrame("Put in new Hour");
+                JTextField textField = new JTextField(20);
+
+                int result = JOptionPane.showConfirmDialog(
+                        frame,
+                        textField,
+                        "Enter a value:",
+                        JOptionPane.OK_CANCEL_OPTION
+                );
+        
+                if (result == JOptionPane.OK_OPTION) {
+                    String newStartHour = textField.getText();
+                }
             }
 
             for(int j = 0;j<taskForSpecies.size();j++){
@@ -502,27 +564,12 @@ public class ScheduleBuilder implements FormatSchedule {
             }
         }
 
-      
-        for(int i = 0;i<24;i++){
-            Hour hour = Schedule.get(i);
-            List<String[]> tasksforHour =  hour.getTasks();
-    
-         
-            
-            for(int j=0;j<tasksforHour.size();j++){
-                String[] tasks = tasksforHour.get(j);
-    
-               
-                    System.out.println("Hour "+i+"  Duration"+hour.getTimeRemaining()  + "  VOLENTEER NEEDED  "+hour.getVolenteer() );
-      
-                
-               
-            }
-        }    
+       
         // //Display the Schedule in terminal
         schedule.formatSchedule(Schedule);   
     
-
+        //disconnect from server
+        schedule.disconnect();
 
 
     }

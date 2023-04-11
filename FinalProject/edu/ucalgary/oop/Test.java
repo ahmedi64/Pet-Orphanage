@@ -1,8 +1,9 @@
 // package FinalProject.edu.ucalgary.oop;
-//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rishik Roy
+//Members: Ahmed Iqbal, Musa Jawad, Abrar Rehan, Rhishik Roy
 //Code version: 11.0.17
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +35,7 @@ public class Test {
 
     public void testValidAnimalName() {
         FeedingTask coyoteTask = new FeedingTask("coyote");
-        assertEquals("The number of coyotes should be 2", 2, coyoteTask.getNumberAnimal());
+        assertEquals("The number of coyotes should be 8", 8, coyoteTask.getNumberAnimal());
     }
 
 
@@ -51,6 +52,7 @@ public class Test {
         assertArrayEquals(new int[]{0, 5, 19}, porcupineTask.getFeedTime());
     }
     @org.junit.Test
+    // Test the GetInfo method output with example values
     public void testGetInfo() throws MedicalTaskException {
         String[][] animals = {
                 {"1", "Loner", "coyote"},
@@ -77,7 +79,70 @@ public class Test {
         assertArrayEquals(new String[]{"2", "Kit feeding", "30", "Slinky"}, infoList.get(2));
     }
 
+
+    @org.junit.Test(expected = MedicalTaskException.class)
+    //Test the case where the tasks cannot be put into the schedule due to the maxWindows
+    public void testMedicalTaskExceptionMaxWindow() throws MedicalTaskException {
+        String[][] animals = {
+            {"1", "Loner", "coyote"}
+    };
+    String[][] tasks = {
+            {"1", "Eyedrops", "25","1"}
+    };
+    String[][] treatments = {
+        //added many treatments for the task of Eyedrops which has a maxWindow of only 1
+            {"1", "1", "0"},
+            {"1", "1", "0"},
+            {"1", "1", "0"},
+            {"1", "1", "1"},
+            {"1", "1", "1"}
+    };
+    int treatmentRows = 5;
+    MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
+
+    ArrayList<String[]> infoList = task.getInfo();
+    }
     
+    @org.junit.Test(expected = MedicalTaskException.class)
+    //test what happens if the hour must be changed to 24, which would need to happen in the next day
+    public void testMedicalTaskExceptionExtraHours() throws MedicalTaskException {
+        String[][] animals = {
+            {"1", "Loner", "coyote"}
+    };
+    String[][] tasks = {
+            {"1", "Eyedrops", "25","1"}
+    };
+    String[][] treatments = {
+        //added many treatments for hour 23(last hour of day) so the getInfo method would cause the hour to be changed to 24
+            {"1", "1", "23"},
+            {"1", "1", "23"},
+            {"1", "1", "23"}
+    };
+    int treatmentRows = 3;
+    MedicalTask task = new MedicalTask(animals, tasks, treatments, treatmentRows);
+
+    ArrayList<String[]> infoList = task.getInfo();
+    }
+
+    @org.junit.Test(expected = AnimalFeedingOrCleaningException.class)
+    public void testExceptionAddFeedingTasks() {
+        HashMap<Integer, Hour> schedule = new HashMap<>();
+        Animal animal = new Animal("coyote");
+        Hour hour = new Hour();
+        hour.setTimeRemaining(-60); // set timeRemaining to -60
+        schedule.put(19, hour);
+        ArrayList<String[]>  test = new ScheduleBuilder.addFeedTasks(schedule, animal);
+        
+    }
+
+
+    @org.junit.Test(expected = AnimalFeedingOrCleaningException.class)
+    public void testExceptionAddCleaningTasks() {
+        CleaningTask invalidTask = new CleaningTask("invalidAnimal");
+    }
+
+
+
     @org.junit.Test
     public void testAddVolenteer() {
         Hour hour = new Hour();
