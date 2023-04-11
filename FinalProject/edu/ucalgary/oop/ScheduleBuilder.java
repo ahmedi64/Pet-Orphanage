@@ -283,7 +283,7 @@ public class ScheduleBuilder implements FormatSchedule {
 
         //If even adding backup volenteers we still cant feed all the animals then throw a new message.
         if(animal.getTobefed()!=0){
-            throw new AnimalFeedingException("You cant do feeding tasks for "+ animal.getName(), animal.getFeedTimeHour()[0],Integer.parseInt(this.tasks[animal.getFeedTimeHour()[0]][1]), Integer.parseInt(this.animals[animal.getFeedTimeHour()[0]][0]));
+            throw new AnimalFeedingOrCleaningException("You cant do feeding tasks for "+ animal.getName());
         }
 
 
@@ -499,7 +499,6 @@ public class ScheduleBuilder implements FormatSchedule {
         
                 if (result == JOptionPane.OK_OPTION) {
                     String newStartHour = textField.getText();
-                    changeDatabase(e.getTaskID(),e.getAnimalID(),Integer.parseInt(newStartHour),e.getOldStartHour());
                 }
             }
 
@@ -546,7 +545,6 @@ public class ScheduleBuilder implements FormatSchedule {
         
                 if (result == JOptionPane.OK_OPTION) {
                     String newStartHour = textField.getText();
-                    changeDatabase(e.getTaskID(),e.getAnimalID(),Integer.parseInt(newStartHour),e.getOldStartHour());
                 }
             }
 
