@@ -38,16 +38,16 @@ public class Test {
     public void testGetInfo() throws MedicalTaskException {
         String[][] animals = {
                 {"1", "Loner", "coyote"},
-                {"7", "Slinky", "fox"}
+                {"2", "Slinky", "fox"}
         };
         String[][] tasks = {
-                {"1", "Kit feeding", "30"},
-                {"2", "Rebandage leg wound", "20"}
+                {"1", "Kit feeding", "30","2"},
+                {"2", "Rebandage leg wound", "20","1"}
         };
         String[][] treatments = {
-                {"1", "6", "1", "0"},
-                {"2", "6", "1", "2"},
-                {"3", "6", "1", "4"}
+                {"1", "1", "0"},
+                {"2", "1", "1"},
+                {"2", "1", "2"}
         };
         int treatmentRows = 3;
 
@@ -55,9 +55,9 @@ public class Test {
 
         ArrayList<String[]> infoList = task.getInfo();
         assertEquals(3, infoList.size());
-        assertArrayEquals(new String[]{"0", "Kit feeding", "30", "fox"}, infoList.get(0));
-        assertArrayEquals(new String[]{"2", "Kit feeding", "30", "fox"}, infoList.get(1));
-        assertArrayEquals(new String[]{"4", "Kit feeding", "30", "fox"}, infoList.get(2));
+        assertArrayEquals(new String[]{"0", "Kit feeding", "30", "Loner"}, infoList.get(0));
+        assertArrayEquals(new String[]{"1", "Kit feeding", "30", "Slinky"}, infoList.get(1));
+        assertArrayEquals(new String[]{"2", "Kit feeding", "30", "Slinky"}, infoList.get(2));
     }
 
     @org.junit.Test
