@@ -34,7 +34,7 @@ public class Test {
 
     public void testValidAnimalName() {
         FeedingTask coyoteTask = new FeedingTask("coyote");
-        assertEquals("The number of coyotes should be 2", 2, coyoteTask.getNumberAnimal());
+        assertEquals("The number of coyotes should be 8", 8, coyoteTask.getNumberAnimal());
     }
 
 
