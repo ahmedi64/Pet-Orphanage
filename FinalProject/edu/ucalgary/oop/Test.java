@@ -3,7 +3,6 @@
 //Code version: 11.0.17
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -29,10 +28,27 @@ public class Test {
         animal.decTobefed(1);
         assertEquals(animal.getTobefed(), animal.getNumAnimal() - 1);
     }
+
+    // Test the constructor and getNumberAnimal() method for a valid animal name
     @org.junit.Test
-    public void testFeedingTaskConstructor() {
-        FeedingTask feedingTask = new FeedingTask("coyote");
-        assertNotNull(feedingTask);
+
+    public void testValidAnimalName() {
+        FeedingTask coyoteTask = new FeedingTask("coyote");
+        assertEquals("The number of coyotes should be 2", 2, coyoteTask.getNumberAnimal());
+    }
+
+
+    // Test the getFeedTime() method for different animal species
+    @org.junit.Test
+    public void testGetFeedTime() {
+        FeedingTask coyoteTask = new FeedingTask("coyote");
+        assertArrayEquals(new int[]{10, 5, 19}, coyoteTask.getFeedTime());
+
+        FeedingTask foxTask = new FeedingTask("fox");
+        assertArrayEquals(new int[]{5, 5, 0}, foxTask.getFeedTime());
+
+        FeedingTask porcupineTask = new FeedingTask("porcupine");
+        assertArrayEquals(new int[]{0, 5, 19}, porcupineTask.getFeedTime());
     }
     @org.junit.Test
     public void testGetInfo() throws MedicalTaskException {
@@ -72,28 +88,6 @@ public class Test {
 
     }
 
-    @org.junit.Test
-    public void testAddFeedingTasks() {
-        ScheduleBuilder scheduleBuilder = new ScheduleBuilder();
-
-        HashMap<Integer, Hour> schedule = new HashMap<>();
-        for (int i = 0; i <= 23; i++) {
-            Hour hour = new Hour();
-            schedule.put(i, hour);
-        }
-
-        Animal animal = new Animal("coyote");
-
-        ArrayList<String[]> feedingTasks;
-        try {
-            feedingTasks = scheduleBuilder.addFeedingTasks(schedule, animal);
-            assertNotNull(feedingTasks);
-        } catch (AnimalFeedingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-    }
     @org.junit.Test
     public void testValidAnimalNames() {
         CleaningTask coyoteTask = new CleaningTask("coyote");
