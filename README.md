@@ -1,3 +1,3 @@
-# 380-Final-Prodject
+# Pet Orphanage Scheduler
 
-This is our Final project for ENSF 380. 
+Created using Java and MySQL
